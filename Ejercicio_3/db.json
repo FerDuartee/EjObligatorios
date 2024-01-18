@@ -1,0 +1,94 @@
+{
+    "products": [
+        {
+            "id": 1,
+            "title": "Piano 1/4 - Kawai",
+            "descrption": "Elegante piano de alta calidad.",
+            "price": 2000,
+            "thumbnail": "Sin Imagen",
+            "code": "INS-101",
+            "stock": 5
+        },
+        {
+            "id": 2,
+            "title": "Trompeta Tenor - Yamaha",
+            "descrption": "Potente trompeta con un brillante tono",
+            "price": 500,
+            "thumbnail": "Sin Imagen",
+            "code": "INS-201",
+            "stock": 15
+        },
+        {
+            "id": 3,
+            "title": "Tambor 14' - Memphis",
+            "descrption": "Tambor versátil y resistente",
+            "price": 2500,
+            "thumbnail": "Sin Imagen",
+            "code": "INS-301",
+            "stock": 10
+        },
+        {
+            "id": 4,
+            "title": "Piano Electrico - Casio",
+            "description": "Teclado con sensibilidad táctil para músicos profesionales",
+            "price": 800,
+            "thumbnail": "Sin Imagen",
+            "code": "INS-401",
+            "stock": 15
+        },
+        {
+            "id": 5,
+            "title": "Guitarra Eléctrica - Fender",
+            "description": "Guitarra versátil ideal para géneros de rock",
+            "price": 1200,
+            "thumbnail": "Sin Imagen",
+            "code": "INS-402",
+            "stock": 20
+        },
+        {
+            "id": 6,
+            "title": "Violín Clásico 4/4 - Yamaha",
+            "description": "Violín de tamaño completo con maderas selectas",
+            "price": 600,
+            "thumbnail": "Sin Imagen",
+            "code": "INS-102",
+            "stock": 12
+        },
+        {
+            "id": 7,
+            "title": "Flauta Travesera - Yamaha",
+            "description": "Flauta con acabados de plata para músicos exigentes",
+            "price": 1200,
+            "thumbnail": "Sin Imagen",
+            "code": "INS-202",
+            "stock": 10
+        },
+        {
+            "id": 8,
+            "title": "Bajo Eléctrico de 5 Cuerdas - Epiphone",
+            "description": "Bajo eléctrico de 5 cuerdas para bajistas avanzados",
+            "price": 1300,
+            "thumbnail": "Sin Imagen",
+            "code": "INS-403",
+            "stock": 10
+        },
+        {
+            "id": 9,
+            "title": "Trombón de Vara - Bach 42B",
+            "description": "Trombón de vara profesional con campana de bronce y afinación precisa.",
+            "price": 2500,
+            "thumbnail": "Sin Imagen",
+            "code": "INS-203",
+            "stock": 6
+        },
+        {
+            "id": 10,
+            "title": "Pandereta - Remo Radiant Tambourine",
+            "description": "Pandereta con parches de Mylar y sonido brillante, ideal para percusión.",
+            "price": 30,
+            "thumbnail": "Sin Imagen",
+            "code": "INS-302",
+            "stock": 30
+        }
+    ]
+}
