@@ -42,7 +42,7 @@ class productManager {
             const allProducts = await fs.readFile(this.pathDB);
             const parsedProducts = JSON.parse(allProducts);
 
-            return parsedProducts.products;  // Devuelve solo el array de productos
+            return parsedProducts.products;
         } catch (error) {
             console.log("🚀 ~ productManager ~ getProducts ~ error:", error)
             throw new Error('Error al obtener los productos');
