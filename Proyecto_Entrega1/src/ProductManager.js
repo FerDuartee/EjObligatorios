@@ -89,7 +89,7 @@ class productManager {
                     (updatedProductData.thumbnail && !Array.isArray(updatedProductData.thumbnail)) ||
                     (updatedProductData.thumbnail && updatedProductData.thumbnail.some(item => typeof item !== 'string'))
                 ) {
-                    throw new Error('Faltan datos obligatorios o el formato del thumbnail es incorrecto');
+                    throw new Error('Faltan datos obligatorios o el formato del thumbnail es incorrecto.');
                 }
     
                 allProducts[productId] = updatedProductData;
@@ -100,7 +100,7 @@ class productManager {
             }
         } catch (error) {
             console.error("🚀 ~ ProductManager ~ updateProduct ~ error:", error);
-            throw new Error('Error al actualizar producto');
+            throw new Error('Error al actualizar producto.');
         }
     }
 
@@ -118,7 +118,7 @@ class productManager {
             }
         } catch (error) {
             console.error("🚀 ~ productManager ~ deleteProduct ~ error:", error);
-            throw new Error('Error al borrar producto');
+            throw new Error('Error al borrar producto.');
         }
     }
 }

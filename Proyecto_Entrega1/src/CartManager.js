@@ -22,7 +22,7 @@ class CartManager {
             return newCart;
         } catch (error) {
             console.error("🚀 ~ CartManager ~ createCart ~ error:", error);
-            throw new Error('Error al crear el carrito')
+            throw new Error('Error al crear el carrito.')
         }
     }
 
@@ -43,7 +43,7 @@ class CartManager {
             if (
                 !product
                 || product.stock <= 0) {
-                throw new Error('Producto agotado');
+                throw new Error('Producto agotado.');
             }
 
             if (productIndex !== -1) {
@@ -63,7 +63,7 @@ class CartManager {
             return cart;
         } catch (error) {
             console.error("🚀 ~ CartManager ~ addProductToCart ~ error:", error)
-            throw new Error('Error al agregar producto al carrito');
+            throw new Error('Error al agregar producto al carrito.');
         }
     }
 
@@ -74,7 +74,7 @@ class CartManager {
             return jsonData.carts || [];
         } catch (error) {
             console.error("🚀 ~ CartManager ~ getCarts ~ error:", error);
-            throw new Error('Error al cargar los carritos');
+            throw new Error('Error al cargar los carritos.');
         }
     }
 
@@ -89,7 +89,7 @@ class CartManager {
             return cart || null;
         } catch (error) {
             console.error("🚀 ~ CartManager ~ getCartById ~ error:", error);
-            throw new Error('Error al cargar el carrito');
+            throw new Error('Error al cargar el carrito.');
         }
     }
 }
