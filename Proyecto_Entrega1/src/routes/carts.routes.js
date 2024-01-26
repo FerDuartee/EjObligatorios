@@ -22,10 +22,8 @@ router.get('/:cid', async (req, res) => {
             return res.status(400).send('Parámetros de solicitud inválidos.');
         }
 
-        // Obtener el carrito por su ID
         const cart = await cartManager.getCartById(cartId);
 
-        // Verificar si el carrito existe
         if (!cart) {
             return res.status(404).send(`Carrito no encontrado.`);
         }
