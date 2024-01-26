@@ -12,9 +12,14 @@ class productManager {
             const lastId = allProducts.length === 0
                 ? 1
                 : (allProducts[allProducts.length - 1]?.id || 0) + 1;
-
-            const newProduct = { id: lastId, ...product, status: typeof product.status === 'boolean' ? product.status : true };
-
+    
+            const newProduct = {
+                id: lastId,
+                ...product,
+                status: typeof product.status === 'boolean' ? product.status : true,
+                thumbnail: Array.isArray(product.thumbnail) ? product.thumbnail : [product.thumbnail]
+            };
+    
             if (
                 newProduct.title && newProduct.title.trim() &&
                 newProduct.description && newProduct.description.trim() &&
@@ -23,7 +28,7 @@ class productManager {
                 typeof newProduct.status === 'boolean' &&
                 typeof newProduct.stock === 'number' && newProduct.stock >= 0 &&
                 newProduct.category && newProduct.category.trim() &&
-                (typeof newProduct.thumbnail === 'string' || typeof newProduct.thumbnail === 'undefined')
+                (typeof newProduct.thumbnail === 'string' || Array.isArray(newProduct.thumbnail))
             ) {
                 allProducts.push(newProduct);
                 await fs.writeFile(this.pathDB, JSON.stringify({ products: allProducts }));
@@ -69,10 +74,10 @@ class productManager {
         try {
             const allProducts = await this.getProducts();
             const productId = allProducts.findIndex(product => product.id === idProduct);
-
+    
             if (productId !== -1) {
                 const updatedProductData = { ...allProducts[productId], ...updatedProduct };
-
+    
                 if (
                     !updatedProductData.title || !updatedProductData.title.trim() ||
                     !updatedProductData.description || !updatedProductData.description.trim() ||
@@ -81,11 +86,12 @@ class productManager {
                     typeof updatedProductData.status !== 'boolean' ||
                     typeof updatedProductData.stock !== 'number' || updatedProductData.stock < 0 ||
                     !updatedProductData.category || !updatedProductData.category.trim() ||
-                    (typeof updatedProductData.thumbnail !== 'string' && typeof updatedProductData.thumbnail !== 'undefined')
+                    (updatedProductData.thumbnail && !Array.isArray(updatedProductData.thumbnail)) ||
+                    (updatedProductData.thumbnail && updatedProductData.thumbnail.some(item => typeof item !== 'string'))
                 ) {
-                    throw new Error('Faltan datos obligatorios');
+                    throw new Error('Faltan datos obligatorios o el formato del thumbnail es incorrecto');
                 }
-
+    
                 allProducts[productId] = updatedProductData;
                 await fs.writeFile(this.pathDB, JSON.stringify({ products: allProducts }));
                 return updatedProductData;

@@ -55,6 +55,9 @@ router.post('/', async (req, res) => {
             return res.status(400).send('Faltan datos obligatorios.');
         }
 
+        // Convertir el thumbnail en un array de strings si es un string único
+        newProduct.thumbnail = Array.isArray(newProduct.thumbnail) ? newProduct.thumbnail : [newProduct.thumbnail];
+
         const createdProduct = await productManager.createProduct(newProduct);
 
         if (createdProduct) {
@@ -79,9 +82,13 @@ router.put('/:pid', async (req, res) => {
             !updatedProduct.code ||
             !updatedProduct.price ||
             !updatedProduct.stock ||
-            !updatedProduct.category) {
+            !updatedProduct.category
+        ) {
             return res.status(400).send('Faltan datos obligatorios.');
         }
+
+        // Convertir el thumbnail en un array de strings si es un string único
+        updatedProduct.thumbnail = Array.isArray(updatedProduct.thumbnail) ? updatedProduct.thumbnail : [updatedProduct.thumbnail];
 
         await productManager.updateProduct(Number(productId), updatedProduct);
 
