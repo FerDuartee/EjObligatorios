@@ -1,17 +1,25 @@
-<div>
-    <h1>Información de los productos</h1>
+<body>
+    <h1>Productos en tiempo real</h1>
+    <table id="tabla-productos">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Título</th>
+                <th>Descripción</th>
+                <th>Código</th>
+                <th>Precio</th>
+                <th>Estado</th>
+                <th>Stock</th>
+                <th>Categoría</th>
+                <th>Imagen del Producto</th>
+            </tr>
+        </thead>
+        <tbody>
 
-    {{#each products}}
-            <div>
-                <p>Id: {{this.id}}</p>
-                <p>Título: {{this.title}}</p>
-                <p>Descripción: {{this.description}}</p>
-                <p>Código: {{this.code}}</p>
-                <p>Precio: {{this.price}}</p>
-                <p>Estado: {{this.status}}</p>
-                <p>Stock: {{this.stock}}</p>
-                <p>Categoría: {{this.category}}</p>
-                <p>Imagen del Producto: {{this.thumbnail}}</p>
-            </div>
-        {{/each}}
-</div>
+        </tbody>
+    </table>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/index.js"></script>
+    <script>
+</body>

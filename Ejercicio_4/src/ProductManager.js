@@ -21,6 +21,7 @@ class productManager {
             };
     
             if (
+                newProduct.id && newProduct.id === 'number',
                 newProduct.title && newProduct.title.trim() &&
                 newProduct.description && newProduct.description.trim() &&
                 newProduct.code && newProduct.code.trim() &&

@@ -7,8 +7,6 @@ const productManager = new ProductManager(pathBase);
 
 const router = Router();
 
-console.log("STARTING VIEWS MANAGER");
-
 router.get('/', async (req, res) => {
     try {
         const limit = Number(req.query.limit);

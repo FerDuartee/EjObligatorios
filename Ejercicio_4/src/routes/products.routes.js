@@ -18,6 +18,7 @@ router.get('/', async (req, res) => {
             products = products.filter((product, index) => index < limit);
         }
         res.json(products);
+
     } catch (error) {
         console.error(error);
         res.status(500).send('Error interno del servidor.');
@@ -61,8 +62,31 @@ router.post('/', async (req, res) => {
 
         if (createdProduct) {
             res.status(201).json(createdProduct);
+            req.app.get('io').emit('newProduct_ev', { product: createdProduct });
         } else {
             res.status(400).send('Error al crear el producto.');
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error interno del servidor.');
+    }
+});
+
+router.delete('/:pid', async (req, res) => {
+    try {
+        const productId = req.params.pid;
+
+        const deletedProduct = await productManager.deleteProduct(Number(productId));
+        if (deletedProduct) {
+            res.status(200).send('Producto eliminado correctamente.');
+            req.app.get('io').emit('deletedProduct_ev', { product: deletedProduct });
+
+            const updatedProducts = await productManager.getProducts();
+            req.app.get('io').emit('getProducts_ev', updatedProducts);
+        }
+        else {
+            console.error(error);
+            res.status(500).send('Error interno del servidor.');
         }
     } catch (error) {
         console.error(error);
@@ -91,18 +115,6 @@ router.put('/:pid', async (req, res) => {
         await productManager.updateProduct(Number(productId), updatedProduct);
 
         res.status(200).send('Producto actualizado correctamente.');
-    } catch (error) {
-        console.error(error);
-        res.status(500).send('Error interno del servidor.');
-    }
-});
-
-router.delete('/:pid', async (req, res) => {
-    try {
-        const productId = req.params.pid;
-        await productManager.deleteProduct(Number(productId));
-
-        res.status(200).send('Producto eliminado correctamente.');
     } catch (error) {
         console.error(error);
         res.status(500).send('Error interno del servidor.');
