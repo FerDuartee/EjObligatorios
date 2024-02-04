@@ -28,17 +28,6 @@ const addRowTable = (row) => {
     tbody.appendChild(row);
 };
 
-const deletedProductTable = (productId) => {
-    const tableProducts = document.getElementById('tabla-productos');
-    const tbody = tableProducts.querySelector('tbody');
-    const rowToDelete = tbody.querySelector(`tr[data-producto-id="${productId}"]`);
-    if (rowToDelete) {
-        rowToDelete.remove();
-    } else {
-        console.log('La fila del producto no existe');
-    }
-};
-
 socket.on('getProducts_ev', (products) => {
     console.log('Productos cargados:', products);
     clarTableProducts();
@@ -49,9 +38,7 @@ socket.on('getProducts_ev', (products) => {
 });
 
 socket.on('deletedProduct_ev', (data) => {
-    console.log('Producto eliminado:', data);
-    const deletedProduct = data.product;
-    deletedProductTable(deletedProduct.id);
+    console.log('Producto eliminado', data);
 });
 
 socket.on('newProduct_ev', (data) => {

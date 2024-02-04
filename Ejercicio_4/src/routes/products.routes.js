@@ -79,7 +79,7 @@ router.delete('/:pid', async (req, res) => {
         const deletedProduct = await productManager.deleteProduct(Number(productId));
         if (deletedProduct) {
             res.status(200).send('Producto eliminado correctamente.');
-            req.app.get('io').emit('deletedProduct_ev', { product: deletedProduct });
+            req.app.get('io').emit('deletedProduct_ev', productId);
 
             const updatedProducts = await productManager.getProducts();
             req.app.get('io').emit('getProducts_ev', updatedProducts);
