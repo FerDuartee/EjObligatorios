@@ -9,6 +9,7 @@ const routerViews = require('./routes/views.routes');
 const productsRoutesMongo = require("./routes/mongo.products.routes")
 const cartsRoutesMongo = require("./routes/mongo.carts.routes")
 const ProductManager = require('./dao/fileSystem/ProductManager');
+const messages = [];
 
 const filePath = path.join(__dirname, './dao/fileSystem/productos.json');
 const productManager = new ProductManager(filePath);
@@ -49,10 +50,22 @@ const io = socketIo(server);
 
 io.on('connection', (socket) => {
     console.log('Usuario conectado');
-    
+
     productManager.getProducts().then(products => {
         socket.emit('getProducts_ev', products);
     });
+
+    console.log("Nuevo cliente conectado: ", socket.id);
+
+    socket.on("message", (data) => {
+        messages.unshift(data);
+        io.emit("messageLogs", messages);
+    })
+
+    socket.on("user-login", (usr) => {
+        socket.emit("messageLogs", messages)
+        socket.broadcast.emit("new-user", usr)
+    })
 
     socket.on('disconnect', () => {
         console.log('Usuario desconectado');
