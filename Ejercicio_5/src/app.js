@@ -49,13 +49,12 @@ const server = http.createServer(app);
 const io = socketIo(server);
 
 io.on('connection', (socket) => {
-    console.log('Usuario conectado');
 
     productManager.getProducts().then(products => {
         socket.emit('getProducts_ev', products);
     });
 
-    console.log("Nuevo cliente conectado: ", socket.id);
+    console.log("Nuevo usuario conectado");
 
     socket.on("message", (data) => {
         messages.unshift(data);

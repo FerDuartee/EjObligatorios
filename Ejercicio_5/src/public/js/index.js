@@ -53,10 +53,10 @@ let chatBox = document.getElementById("chat-box");
 
 Swal.fire({
   title: "Identificate para ingresar",
-  input: "text",
-  text: "¡Ingresa tu nombre para identificarte en el chat!",
+  input: "email",
+  text: "Ingrese su mail",
   inputValidator: (value) => {
-    return !value && "¡Necesitas escribir un nombre de usuario para continuar!";
+    return !value && "Complete con su mail";
   },
   allowOutsideClick: false
 }).then((result) => {
@@ -78,7 +78,7 @@ socket.on("messageLogs", (data) => {
   const log = document.getElementById("message-logs");
   let messages = "";
   data.forEach(msg => {
-    messages += `<p>${msg.user} dice: ${msg.message}</p>`
+    messages += `<p>${msg.user}: ${msg.message}</p>`
   })
 
   log.innerHTML = messages;
@@ -87,7 +87,7 @@ socket.on("messageLogs", (data) => {
 socket.on("new-user", (data) => {
   if(!user) return
   Swal.fire({
-    text: `¡${data} se a conectado al chat!`,
+    text: `${data} se a conectado`,
     toast: true,
     position: "top-right"
   })
