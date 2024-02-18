@@ -9,10 +9,11 @@ const routerViews = require('./routes/views.routes');
 const productsRoutesMongo = require("./routes/mongo.products.routes")
 const cartsRoutesMongo = require("./routes/mongo.carts.routes")
 const ProductManager = require('./dao/fileSystem/ProductManager');
-const messages = [];
+const ChatManager = require('./dao/mongoDb/managers/Chat.Manager')
 
 const filePath = path.join(__dirname, './dao/fileSystem/productos.json');
 const productManager = new ProductManager(filePath);
+const chatManager = new ChatManager(filePath);
 
 const mongoose = require('mongoose');
 
@@ -56,18 +57,24 @@ io.on('connection', (socket) => {
 
     console.log("Nuevo usuario conectado");
 
-    socket.on("message", (data) => {
-        messages.unshift(data);
-        io.emit("messageLogs", messages);
-    })
+    socket.on("message", async (data) => {
+        try {
+            await chatManager.saveMessage(data.user, data.message,);
 
-    socket.on("user-login", (usr) => {
-        socket.emit("messageLogs", messages)
-        socket.broadcast.emit("new-user", usr)
-    })
+            // Emitir el mensaje a todos los clientes, incluido el remitente
+            io.emit("messageLogs", data);
+        } catch (error) {
+            console.error('Error al guardar el mensaje:', error);
+        }
+        socket.on("user-login", (usr) => {
+            // Emitir los mensajes al cliente recién conectado si están disponibles
+            if (messages) {
+                socket.emit("messageLogs", messages);
+            }
 
-    socket.on('disconnect', () => {
-        console.log('Usuario desconectado');
+            // Emitir la notificación de nuevo usuario a todos los clientes
+            socket.broadcast.emit("new-user", usr);
+        });
     });
 });
 
