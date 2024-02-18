@@ -28,6 +28,7 @@ app.engine("handlebars", handlebars.engine());
 app.set("views", path.join(`${__dirname}/views`));
 app.set("view engine", "handlebars");
 
+app.use(`${API_BASE_PATH}/cartmongo`, cartsRoutesMongo);
 app.use(`${API_BASE_PATH}/productsmongo`, productsRoutesMongo);
 app.use(`${API_BASE_PATH}/products`, productsRoutes);
 app.use(`${API_BASE_PATH}/carts`, cartsRoutes);
