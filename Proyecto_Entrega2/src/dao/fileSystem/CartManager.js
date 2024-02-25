@@ -92,6 +92,24 @@ class CartManager {
             throw new Error('Error al cargar el carrito.');
         }
     }
+    removeAllProductsFromCart = async (cartId) => {
+        try {
+            const cart = await cartsModel.findById(cartId);
+            if (!cart) {
+                throw new Error('Cart not found');
+            }
+
+            // Limpiar el array de productos del carrito
+            cart.products = [];
+            
+            await cart.save();
+            
+            return cart;
+        } catch (error) {
+            console.log("Error while removing all products from cart:", error);
+            throw error;
+        }
+    };
 }
 
 module.exports = CartManager;
