@@ -5,11 +5,68 @@ const ProductManager = require('../dao/fileSystem/ProductManager');
 const pathBase = path.join(__dirname, '../dao/fileSystem/productos.json');
 const productManager = new ProductManager(pathBase);
 
+const productsData = require("../dao/mongoDB/data/products");
+const productsModel = require("../dao/mongoDB/model/products.model");
+
 const router = Router();
 
 console.log("STARTING PRODUCT MANANGER");
 
-// Ruta para mostrar todos los productos con su limit
+router.get("/insertion", async (req, res) => {
+    let result = await productsModel.insertMany(productsData);
+    return res.json({
+      message: "All the products are inserted succesfully",
+      result,
+    });
+  });
+
+  router.post('/post', async (req, res) => {
+    try {
+        const newProduct = req.body;
+
+        // Verificar si faltan datos obligatorios
+        if (
+            !newProduct.title ||
+            !newProduct.description ||
+            !newProduct.code ||
+            !newProduct.price ||
+            !newProduct.stock ||
+            !newProduct.category
+        ) {
+            return res.status(400).send('Faltan datos obligatorios.');
+        }
+
+        // Crear un nuevo documento de producto utilizando el modelo de Mongoose
+        const createdProduct = await Product.create(newProduct);
+
+        // Verificar si se creó el producto correctamente
+        if (createdProduct) {
+            res.status(201).json(createdProduct);
+        } else {
+            res.status(400).send('Error al crear el producto.');
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error interno del servidor.');
+    }
+});
+
+
+router.get(`/get`, async (req, res) => {
+    try {
+      let products = await productsModel.find();
+      return res.json({
+        message: `products list`,
+        products,
+      });
+    } catch (error) {
+      console.log(
+        "🚀 ~ file: students.routes.js:38 ~ router.get ~ error:",
+        error
+      );
+    }
+  });
+
 router.get('/', async (req, res) => {
     try {
         const limit = Number(req.query.limit);
@@ -19,14 +76,12 @@ router.get('/', async (req, res) => {
             products = products.filter((product, index) => index < limit);
         }
         res.json(products);
-
     } catch (error) {
         console.error(error);
         res.status(500).send('Error interno del servidor.');
     }
 });
 
-// Ruta para mostrar un producto específico
 router.get('/:pid', async (req, res) => {
     try {
         const productId = req.params.pid;
@@ -43,7 +98,6 @@ router.get('/:pid', async (req, res) => {
     }
 });
 
-// Ruta para crear un producto
 router.post('/', async (req, res) => {
     try {
         const newProduct = req.body;
@@ -65,7 +119,6 @@ router.post('/', async (req, res) => {
 
         if (createdProduct) {
             res.status(201).json(createdProduct);
-            req.app.get('io').emit('newProduct_ev', { product: createdProduct });
         } else {
             res.status(400).send('Error al crear el producto.');
         }
@@ -75,30 +128,6 @@ router.post('/', async (req, res) => {
     }
 });
 
-// Ruta para borrar un producto
-router.delete('/:pid', async (req, res) => {
-    try {
-        const productId = req.params.pid;
-
-        const deletedProduct = await productManager.deleteProduct(Number(productId));
-        if (deletedProduct) {
-            res.status(200).send('Producto eliminado correctamente.');
-            req.app.get('io').emit('deletedProduct_ev', productId);
-
-            const updatedProducts = await productManager.getProducts();
-            req.app.get('io').emit('getProducts_ev', updatedProducts);
-        }
-        else {
-            console.error(error);
-            res.status(500).send('Error interno del servidor.');
-        }
-    } catch (error) {
-        console.error(error);
-        res.status(500).send('Error interno del servidor.');
-    }
-});
-
-// Ruta para actualizar un producto
 router.put('/:pid', async (req, res) => {
     try {
         const productId = req.params.pid;
@@ -125,5 +154,19 @@ router.put('/:pid', async (req, res) => {
         res.status(500).send('Error interno del servidor.');
     }
 });
+
+router.delete('/:pid', async (req, res) => {
+    try {
+        const productId = req.params.pid;
+        await productManager.deleteProduct(Number(productId));
+
+        res.status(200).send('Producto eliminado correctamente.');
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error interno del servidor.');
+    }
+});
+
+//Mongo
 
 module.exports = router;

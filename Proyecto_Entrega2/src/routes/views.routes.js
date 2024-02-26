@@ -30,7 +30,7 @@ router.get('/products', async (req, res) => {
 router.get('/carts/:cid', async (req, res) => {
     const cartId = req.params.cid;
     try {
-        const cart = await cartsModel.findById(cartId).populate('products.product').lean();
+        const cart = await cartsModel.findById(cartId).populate('products.product').lean(); //.lean es importante para vincular con hdb
         res.render('cart', { cart: cart });
     } catch (error) {
         console.error('Error al obtener productos del carrito:', error);
@@ -38,6 +38,8 @@ router.get('/carts/:cid', async (req, res) => {
     }
 });
 
+
+// Ruta para mostrar todos los productos sin Socket.IO
 router.get('/', async (req, res) => {
     try {
         const limit = Number(req.query.limit);
@@ -57,6 +59,7 @@ router.get('/', async (req, res) => {
     }
 });
 
+// Ruta para mostrar todos los productos con Socket.IO
 router.get('/realtimeproducts', async (req, res) => {
     try {
         const limit = Number(req.query.limit);
@@ -76,6 +79,7 @@ router.get('/realtimeproducts', async (req, res) => {
     }
 });
 
+// Ruta para mostrar chat con socket.IO
 router.get("/chat", (req, res) => {
   res.render("chat", {})
 })

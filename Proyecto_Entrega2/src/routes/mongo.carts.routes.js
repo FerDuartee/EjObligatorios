@@ -5,6 +5,7 @@ const cartsModel = require('../dao/mongoDb/models/carts.models');
 const router = express.Router();
 const cartManager = new CartManagerMongo();
 
+// Ruta para mostrar productos de prueba con mongoDB
 router.get('/:cid', async (req, res) => {
   const { cid } = req.params;
   try {
@@ -16,7 +17,7 @@ router.get('/:cid', async (req, res) => {
   }
 });
 
-// Eliminar todos los productos del carrito
+// Ruta para eliminar carrito de compra con mongoDB
 router.delete('/:cid', async (req, res) => {
   const { cid } = req.params;
   try {
@@ -28,6 +29,7 @@ router.delete('/:cid', async (req, res) => {
   }
 });
 
+// Ruta para crear carrito de compra con mongoDB
 router.post('/', async (req, res) => {
   const bodyCart = req.body;
   try {
@@ -39,10 +41,11 @@ router.post('/', async (req, res) => {
   }
 });
 
+// Ruta para agrear un producto al carrito de compra con mongoDB
 router.post('/:cid/products/:pid', async (req, res) => {
   const { cid, pid } = req.params;
   try {
-      // Llamar al método para agregar el producto al carrito
+      // Llamar al método para agregar el producto al carrito con mongoDB
       const cart = await cartManager.addProductToCart(cid, pid);
       res.json(cart);
   } catch (error) {
@@ -51,6 +54,7 @@ router.post('/:cid/products/:pid', async (req, res) => {
   }
 });
 
+// Ruta para eliminar un producto al carrito de compra con mongoDB
 router.delete('/:cid/products/:pid', async (req, res) => {
   const { cid, pid } = req.params;
   try {
@@ -62,7 +66,7 @@ router.delete('/:cid/products/:pid', async (req, res) => {
   }
 });
 
-// Actualizar el carrito con un arreglo de productos
+// Ruta para actualizar el carrito con un arreglo de productos con mongoDB
 router.put('/:cid', async (req, res) => {
   const { cid } = req.params;
   const { products } = req.body;
@@ -75,7 +79,7 @@ router.put('/:cid', async (req, res) => {
   }
 });
 
-// Actualizar la cantidad de ejemplares del producto en el carrito
+// Ruta para actualizar la cantidad de ejemplares del producto en el carrito con mongoDB
 router.put('/:cid/products/:pid', async (req, res) => {
   const { cid, pid } = req.params;
   const { quantity } = req.body;
@@ -88,6 +92,7 @@ router.put('/:cid/products/:pid', async (req, res) => {
   }
 });
 
+// Ruta para eliminar todos los productos del carrito con mongoDB
 removeAllProductsFromCart = async (cartId) => {
   try {
       const cart = await cartsModel.findById(cartId);

@@ -12,6 +12,7 @@ const router = Router();
 
 console.log("STARTING PRODUCT MANANGER WITH MONGO");
 
+// Ruta para insertar productos de prueba
 router.get("/insertion", async (req, res) => {
     try {
         let result = await productsModel.insertMany(productsData);
@@ -28,6 +29,7 @@ router.get("/insertion", async (req, res) => {
     }
 });
 
+// Ruta para mostrar todos los productos con MongoDB con query.params
 router.get('/', async (req, res) => {
     try {
         const { limit = 10, page = 1, sort, ...query } = req.query;
@@ -44,6 +46,7 @@ router.get('/', async (req, res) => {
     }
 });
 
+// Ruta para mostrar un producto con MongoDB
 router.get(`/:pid`, async (req, res) => {
     try {
         const productId = req.params.pid;
@@ -63,6 +66,7 @@ router.get(`/:pid`, async (req, res) => {
     }
 });
 
+// Ruta para crear un nuevo producto con MongoDB
 router.post(`/`, async (req, res) => {
     try {
         const productBody = req.body;
@@ -84,8 +88,9 @@ router.post(`/`, async (req, res) => {
     }
 });
 
-router.put('/:productId', async (req, res) => {
-    const productId = req.params.productId;
+// Ruta para actualizar un producto con MongoDB
+router.put('/:pid', async (req, res) => {
+    const productId = req.params.pid;
     const updatedProductData = req.body;
 
     try {
@@ -97,9 +102,9 @@ router.put('/:productId', async (req, res) => {
     }
 });
 
-// Ruta para eliminar un producto
-router.delete('/:productId', async (req, res) => {
-    const productId = req.params.productId;
+// Ruta para eliminar un producto con MongoDB
+router.delete('/:pid', async (req, res) => {
+    const productId = req.params.pid;
 
     try {
         await productManager.deleteProduct(productId);
@@ -109,8 +114,5 @@ router.delete('/:productId', async (req, res) => {
         res.status(500).json({ message: 'Error deleting product', error: error.message });
     }
 });
-
-
-//Mongo
 
 module.exports = router;

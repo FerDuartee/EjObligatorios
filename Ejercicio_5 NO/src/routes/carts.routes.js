@@ -3,8 +3,9 @@ const path = require('path');
 const CartManager = require('../dao/fileSystem/CartManager');
 const ProductManager = require('../dao/fileSystem/ProductManager');
 
-const pathProducts = path.join(__dirname, '../dao/fileSystem/productos.json');
 const pathBase = path.join(__dirname, '../dao/fileSystem/carrito.json');
+const pathProducts = path.join(__dirname, '../dao/fileSystem/productos.json');
+
 
 const cartManager = new CartManager(pathBase);
 const productManager = new ProductManager(pathProducts);
@@ -14,7 +15,6 @@ const router = Router();
 
 console.log("STARTING CART MANANGER");
 
-// Ruta para mostrar un carrito de compras
 router.get('/:cid', async (req, res) => {
     try {
         const cartId = parseInt(req.params.cid, 10);
@@ -36,7 +36,6 @@ router.get('/:cid', async (req, res) => {
     }
 });
 
-// Ruta para crear un carrito de compras
 router.post('/', async (req, res) => {
     try {
         const newCart = await cartManager.createCart(req.body.products);
@@ -47,7 +46,16 @@ router.post('/', async (req, res) => {
     }
 });
 
-// Ruta para agregar productos a un carrito de compras
+router.post('/', async (req, res) => {
+    try {
+        const newCart = await cartManager.createCart(req.body.products);
+        res.status(201).json(newCart);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error interno del servidor.');
+    }
+});
+
 router.post('/:cid/product/:pid', async (req, res) => {
     try {
         const cartId = parseInt(req.params.cid, 10);

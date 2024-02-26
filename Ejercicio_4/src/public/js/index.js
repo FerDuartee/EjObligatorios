@@ -47,3 +47,20 @@ socket.on('newProduct_ev', (data) => {
     const newProductRow = addProductRow(newProduct);
     addRowTable(newProductRow);
 });
+
+var form = document.getElementById('form');
+var input = document.getElementById('input');
+
+form.addEventListener('submit', function(e) {
+  e.preventDefault();
+  if (input.value) {
+    socket.emit('chat message', { user: 'User', message: input.value });
+    input.value = '';
+  }
+});
+
+socket.on('chat message', function(data) {
+  var item = document.createElement('li');
+  item.textContent = data.user + ': ' + data.message;
+  document.getElementById('messages').appendChild(item);
+});
