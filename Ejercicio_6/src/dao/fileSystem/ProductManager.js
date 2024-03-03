@@ -12,14 +12,14 @@ class productManager {
             const lastId = allProducts.length === 0
                 ? 1
                 : (allProducts[allProducts.length - 1]?.id || 0) + 1;
-    
+
             const newProduct = {
                 id: lastId,
                 ...product,
                 status: typeof product.status === 'boolean' ? product.status : true,
                 thumbnail: Array.isArray(product.thumbnail) ? product.thumbnail : [product.thumbnail]
             };
-    
+
             if (
                 newProduct.title && newProduct.title.trim() &&
                 newProduct.description && newProduct.description.trim() &&
@@ -74,10 +74,10 @@ class productManager {
         try {
             const allProducts = await this.getProducts();
             const productId = allProducts.findIndex(product => product.id === idProduct);
-    
+
             if (productId !== -1) {
                 const updatedProductData = { ...allProducts[productId], ...updatedProduct };
-    
+
                 if (
                     !updatedProductData.title || !updatedProductData.title.trim() ||
                     !updatedProductData.description || !updatedProductData.description.trim() ||
@@ -91,7 +91,7 @@ class productManager {
                 ) {
                     throw new Error('Faltan datos obligatorios o el formato del thumbnail es incorrecto.');
                 }
-    
+
                 allProducts[productId] = updatedProductData;
                 await fs.writeFile(this.pathDB, JSON.stringify({ products: allProducts }));
                 return updatedProductData;

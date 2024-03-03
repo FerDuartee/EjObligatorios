@@ -92,7 +92,7 @@ class CartManager {
             throw new Error('Error al cargar el carrito.');
         }
     }
-    
+
 }
 
 module.exports = CartManager;

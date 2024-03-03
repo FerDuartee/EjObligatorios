@@ -3,11 +3,28 @@ const path = require('path');
 const ProductManager = require('../dao/fileSystem/ProductManager');
 const productsModel = require('../dao/mongoDb/models/products.model');
 const cartsModel = require('../dao/mongoDb/models/carts.models');
+const authMdw = require('../middleware/auth.middleware');
 
 const pathBase = path.join(__dirname, '../dao/fileSystem/productos.json');
 const productManager = new ProductManager(pathBase);
 
 const router = Router();
+
+router.get(`/login`, async (req, res) => {
+    res.render("login");
+});
+
+router.get(`/register`, async (req, res) => {
+    res.render("register");
+});
+
+router.get(`/profile`, authMdw, async (req, res) => {
+    const user = req.session.user;
+
+    res.render("profile", {
+        user,
+    });
+});
 
 // Ruta para mostrar todos los productos con paginación
 router.get('/products', async (req, res) => {
@@ -15,7 +32,7 @@ router.get('/products', async (req, res) => {
         const options = {
             page: req.query.page || 1,
             limit: req.query.limit || 10,
-            lean: true 
+            lean: true
         };
 
         const products = await productsModel.paginate({}, options);
@@ -81,7 +98,7 @@ router.get('/realtimeproducts', async (req, res) => {
 
 // Ruta para mostrar chat con socket.IO
 router.get("/chat", (req, res) => {
-  res.render("chat", {})
+    res.render("chat", {})
 })
 
 module.exports = router;
