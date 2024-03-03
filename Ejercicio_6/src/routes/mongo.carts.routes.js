@@ -9,11 +9,11 @@ const cartManager = new CartManagerMongo();
 router.get('/:cid', async (req, res) => {
   const { cid } = req.params;
   try {
-    const cart = await cartsModel.findById(cid).populate('products.product');
-    res.json(cart);
+      const cart = await cartsModel.findById(cid).populate('products.product');
+      res.json(cart);
   } catch (error) {
-    console.error('Error while fetching cart:', error);
-    res.status(500).json({ message: 'Internal server error' });
+      console.error('Error while fetching cart:', error);
+      res.status(500).json({ message: 'Internal server error' });
   }
 });
 
@@ -21,11 +21,11 @@ router.get('/:cid', async (req, res) => {
 router.delete('/:cid', async (req, res) => {
   const { cid } = req.params;
   try {
-    const cart = await cartManager.removeAllProductsFromCart(cid);
-    res.json(cart);
+      const cart = await cartManager.removeAllProductsFromCart(cid);
+      res.json(cart);
   } catch (error) {
-    console.error('Error while removing all products from cart:', error);
-    res.status(500).json({ message: 'Internal server error' });
+      console.error('Error while removing all products from cart:', error);
+      res.status(500).json({ message: 'Internal server error' });
   }
 });
 
@@ -45,12 +45,12 @@ router.post('/', async (req, res) => {
 router.post('/:cid/products/:pid', async (req, res) => {
   const { cid, pid } = req.params;
   try {
-    // Llamar al método para agregar el producto al carrito con mongoDB
-    const cart = await cartManager.addProductToCart(cid, pid);
-    res.json(cart);
+      // Llamar al método para agregar el producto al carrito con mongoDB
+      const cart = await cartManager.addProductToCart(cid, pid);
+      res.json(cart);
   } catch (error) {
-    console.error('Error while adding product to cart:', error);
-    res.status(500).json({ message: 'Internal server error' });
+      console.error('Error while adding product to cart:', error);
+      res.status(500).json({ message: 'Internal server error' });
   }
 });
 
@@ -58,11 +58,11 @@ router.post('/:cid/products/:pid', async (req, res) => {
 router.delete('/:cid/products/:pid', async (req, res) => {
   const { cid, pid } = req.params;
   try {
-    const cart = await cartManager.removeProductFromCart(cid, pid);
-    res.json(cart);
+      const cart = await cartManager.removeProductFromCart(cid, pid);
+      res.json(cart);
   } catch (error) {
-    console.error('Error while removing product from cart:', error);
-    res.status(500).json({ message: 'Internal server error' });
+      console.error('Error while removing product from cart:', error);
+      res.status(500).json({ message: 'Internal server error' });
   }
 });
 
@@ -71,11 +71,11 @@ router.put('/:cid', async (req, res) => {
   const { cid } = req.params;
   const { products } = req.body;
   try {
-    const cart = await cartManager.updateCart(cid, products);
-    res.json(cart);
+      const cart = await cartManager.updateCart(cid, products);
+      res.json(cart);
   } catch (error) {
-    console.error('Error while updating cart:', error);
-    res.status(500).json({ message: 'Internal server error' });
+      console.error('Error while updating cart:', error);
+      res.status(500).json({ message: 'Internal server error' });
   }
 });
 
@@ -84,31 +84,31 @@ router.put('/:cid/products/:pid', async (req, res) => {
   const { cid, pid } = req.params;
   const { quantity } = req.body;
   try {
-    const cart = await cartManager.updateProductQuantityInCart(cid, pid, quantity);
-    res.json(cart);
+      const cart = await cartManager.updateProductQuantityInCart(cid, pid, quantity);
+      res.json(cart);
   } catch (error) {
-    console.error('Error while updating product quantity in cart:', error);
-    res.status(500).json({ message: 'Internal server error' });
+      console.error('Error while updating product quantity in cart:', error);
+      res.status(500).json({ message: 'Internal server error' });
   }
 });
 
 // Ruta para eliminar todos los productos del carrito con mongoDB
 removeAllProductsFromCart = async (cartId) => {
   try {
-    const cart = await cartsModel.findById(cartId);
-    if (!cart) {
-      throw new Error('Cart not found');
-    }
+      const cart = await cartsModel.findById(cartId);
+      if (!cart) {
+          throw new Error('Cart not found');
+      }
 
-    // Limpiar el array de productos del carrito
-    cart.products = [];
-
-    await cart.save();
-
-    return cart;
+      // Limpiar el array de productos del carrito
+      cart.products = [];
+      
+      await cart.save();
+      
+      return cart;
   } catch (error) {
-    console.log("Error while removing all products from cart:", error);
-    throw error;
+      console.log("Error while removing all products from cart:", error);
+      throw error;
   }
 };
 

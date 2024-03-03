@@ -14,15 +14,6 @@ body, h1, h2, h3, h4, h5, h6, p, a, label, button, input {
     text-align: start;
 }
 
-body {
-    margin: 0; /* Elimina los márgenes predeterminados del cuerpo */
-    padding: 0; /* Elimina el relleno predeterminado del cuerpo */
-}
-
-main {
-    margin: 20px; /* Agrega márgenes alrededor del contenedor principal */
-}
-
 /* Estilos para el título h1 */
 h1 {
     margin-bottom: 20px;
@@ -80,4 +71,29 @@ button:hover, .button-link:hover {
 
 .register-link a:hover {
     text-decoration: underline;
+}
+
+.pagination {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+    text-align:start;
+}
+
+.pagination li {
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.pagination li a {
+    display: inline-block;
+    padding: 5px 10px;
+    text-decoration: none;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 5px;
+}
+
+.pagination li a:hover {
+    background-color: #0056b3;
 }

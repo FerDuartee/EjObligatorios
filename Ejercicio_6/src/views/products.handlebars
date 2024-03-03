@@ -25,12 +25,13 @@
             </li>
             {{/each}}
         </ul>
-
-        <!-- Paginación -->
-        <ul class="pagination">
-            {{#if products.hasNextPage}}
-            <li><a href="?page={{products.nextPage}}" class="next-page">Next</a></li>
-            {{/if}}
-        </ul>
     </main>
+    <ul class="pagination">
+        {{#if products.hasPrevPage}}
+        <li><a href="?page={{products.prevPage}}" class="prev-page">Anterior</a></li>
+        {{/if}}
+        {{#if products.hasNextPage}}
+        <li><a href="?page={{products.nextPage}}" class="next-page">Siguiente</a></li>
+        {{/if}}
+    </ul>
 </body>

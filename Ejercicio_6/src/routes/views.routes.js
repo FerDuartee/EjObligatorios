@@ -2,8 +2,10 @@ const { Router } = require("express");
 const path = require('path');
 const authMdw = require('../middleware/auth.middleware');
 const ProductManager = require('../dao/fileSystem/ProductManager');
-const cartsModel = require('../dao/mongoDb/models/carts.models');
 const productsModel = require('../dao/mongoDb/models/products.model');
+const cartsModel = require('../dao/mongoDb/models/carts.models');
+
+
 const pathBase = path.join(__dirname, '../dao/fileSystem/productos.json');
 const productManager = new ProductManager(pathBase);
 
@@ -44,10 +46,10 @@ router.get('/products', authMdw, async (req, res) => {
 });
 
 // Ruta para mostrar un carrito específico
-router.get('/carts/:cid', async (req, res) => {
+router.get('/carts/:cid', authMdw, async (req, res) => {
     const cartId = req.params.cid;
     try {
-        const cart = await cartsModel.findById(cartId).populate('products.product'); //.lean es importante para vincular con hdb
+        const cart = await cartsModel.findById(cartId).populate('products.product').lean(); //.lean es importante para vincular con hdb
         res.render('cart', { cart: cart });
     } catch (error) {
         console.error('Error al obtener productos del carrito:', error);
