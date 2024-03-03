@@ -1,4 +1,10 @@
 <body>
+    <div>
+    <form action="/api/session/logout" method="get">
+      <br />
+      <button type="submit">logout</button>
+    </form>
+  </div>
     <h1>Lista de Productos</h1>
     <ul>
         {{#each products.docs}}

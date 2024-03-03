@@ -45,6 +45,10 @@ app.use(
     })
 );
 
+app.get("/", (req, res) => {
+    res.redirect(`login`);
+});
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -104,6 +108,10 @@ io.on('connection', (socket) => {
 });
 
 app.set('io', io);
+app.get("/", (req, res) => {
+    res.redirect("/session/login");
+});
+
 
 server.listen(port, () => {
     console.log(`Servidor escuchando en http://localhost:${port}`);
