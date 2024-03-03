@@ -1,38 +1,36 @@
 <body>
-    <header>
-        <h2>Bienvenido {{ user.first_name }} {{ user.last_name }}</h2>
-        <p>Mail: {{ user.email }}</p>
-        <p>Edad: {{ user.age }}</p>
-        <p>Rol: {{ user.role }}</p>
+    <main>
+        <h2>Bienvenido <span class="user-first-name">{{ user.first_name }}</span> <span class="user-last-name">{{
+                user.last_name }}</span></h2>
+        <p>Mail: <span class="user-email">{{ user.email }}</span></p>
+        <p>Edad: <span class="user-age">{{ user.age }}</span></p>
+        <p>Rol: <span class="user-role">{{ user.role }}</span></p>
         <form action="/api/session/logout" method="get">
             <button type="submit">Cerrar sesión</button>
         </form>
-    </header>
 
-    <main>
+
         <h1>Lista de Productos</h1>
-        <ul>
+        <ul class="product-list">
             {{#each products.docs}}
-            <li>
-                <h2>{{this.title}}</h2>
-                <p>Precio: ${{this.price}}</p>
-                <p>Categoría: {{this.category}}</p>
-                <p>{{this.description}}</p>
+            <li class="product-item">
+                <h2 class="product-title">{{this.title}}</h2>
+                <p class="product-price">Precio: ${{this.price}}</p>
+                <p class="product-category">Categoría: {{this.category}}</p>
+                <p class="product-description">{{this.description}}</p>
                 <!-- Botón para agregar al carrito -->
-                <form action="/carts/{{cartId}}/products/{{this._id}}" method="POST">
-                    <button type="submit">Agregar al carrito</button>
+                <form action="/carts/{{cartId}}/products/{{this._id}}" method="POST" class="add-to-cart-form">
+                    <button type="submit" class="add-to-cart-button">Agregar al carrito</button>
                 </form>
             </li>
             {{/each}}
         </ul>
 
         <!-- Paginación -->
-        <ul>
+        <ul class="pagination">
             {{#if products.hasNextPage}}
-            <li><a href="?page={{products.nextPage}}">Next</a></li>
+            <li><a href="?page={{products.nextPage}}" class="next-page">Next</a></li>
             {{/if}}
         </ul>
     </main>
-
-
 </body>

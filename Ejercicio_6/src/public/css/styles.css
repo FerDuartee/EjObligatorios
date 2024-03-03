@@ -1,0 +1,83 @@
+/* Importar la fuente Montserrat */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+/* Aplicar la fuente Montserrat a todos los elementos de texto */
+body, h1, h2, h3, h4, h5, h6, p, a, label, button, input {
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* Estilos para el contenedor principal */
+.container {
+    margin: 20px auto; /* Agrega márgenes superior e inferior de 20px y centrará el contenedor horizontalmente */
+    width: 50%;
+    padding: 20px;
+    text-align: start;
+}
+
+body {
+    margin: 0; /* Elimina los márgenes predeterminados del cuerpo */
+    padding: 0; /* Elimina el relleno predeterminado del cuerpo */
+}
+
+main {
+    margin: 20px; /* Agrega márgenes alrededor del contenedor principal */
+}
+
+/* Estilos para el título h1 */
+h1 {
+    margin-bottom: 20px;
+}
+
+/* Estilos para los formularios de registro e inicio de sesión */
+.register-form, .login-form {
+    margin: 0 auto;
+    width: 100%;
+    padding: 20px;
+    border: 1px solid #ccc;
+}
+
+/* Estilos para los campos de texto, correo electrónico, edad y contraseña */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"] {
+    width: 100%;
+    padding: 8px; /* Reduce el relleno */
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box; /* Incluye el relleno y el borde en el ancho total */
+    appearance: textfield; /* Quita las flechas de aumento y disminución */
+}
+
+/* Estilos para los botones y enlaces de botón */
+button, .button-link {
+    margin-top: 10px; /* Agrega espacio arriba del botón */
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+/* Estilos para el botón al pasar el mouse */
+button:hover, .button-link:hover {
+    background-color: #0056b3;
+}
+
+/* Estilos para el enlace de registro */
+.register-link {
+    margin-top: 10px; /* Añade espacio en la parte superior */
+}
+
+.register-link a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+}
