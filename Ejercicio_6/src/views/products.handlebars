@@ -1,39 +1,38 @@
 <body>
-
-    <h1>Perfil de usuario</h1>
-    <p>{{ user.first_name }}</p>
-    <p>{{ user.last_name }}</p>
-    <p>{{ user.email }}</p>
-    <p>{{ user.age }}</p>
-    <p>{{ user.role }}</p>
-
-    <div>
+    <header>
+        <h2>Bienvenido {{ user.first_name }} {{ user.last_name }}</h2>
+        <p>Mail: {{ user.email }}</p>
+        <p>Edad: {{ user.age }}</p>
+        <p>Rol: {{ user.role }}</p>
         <form action="/api/session/logout" method="get">
-            <br />
             <button type="submit">Cerrar sesión</button>
         </form>
-    </div>
+    </header>
 
-    <h1>Lista de Productos</h1>
-    <ul>
-        {{#each products.docs}}
-        <li>
-            <h2>{{this.title}}</h2>
-            <p>Precio: ${{this.price}}</p>
-            <p>Categoría: {{this.category}}</p>
-            <p>{{this.description}}</p>
-            <!-- Botón para agregar al carrito -->
-            <form action="/carts/{{cartId}}/products/{{this._id}}" method="POST">
-                <button type="submit">Agregar al carrito</button>
-            </form>
-        </li>
-        {{/each}}
-    </ul>
+    <main>
+        <h1>Lista de Productos</h1>
+        <ul>
+            {{#each products.docs}}
+            <li>
+                <h2>{{this.title}}</h2>
+                <p>Precio: ${{this.price}}</p>
+                <p>Categoría: {{this.category}}</p>
+                <p>{{this.description}}</p>
+                <!-- Botón para agregar al carrito -->
+                <form action="/carts/{{cartId}}/products/{{this._id}}" method="POST">
+                    <button type="submit">Agregar al carrito</button>
+                </form>
+            </li>
+            {{/each}}
+        </ul>
 
-    <!-- Paginación -->
-    <ul>
-        {{#if products.hasNextPage}}
-        <li><a href="?page={{products.nextPage}}">Next</a></li>
-        {{/if}}
-    </ul>
+        <!-- Paginación -->
+        <ul>
+            {{#if products.hasNextPage}}
+            <li><a href="?page={{products.nextPage}}">Next</a></li>
+            {{/if}}
+        </ul>
+    </main>
+
+
 </body>

@@ -1,16 +1,15 @@
-<div>
-  <h1>Perfil de usuario</h1>
-  <p>{{ user.first_name }}</p>
-  <p>{{ user.last_name }}</p>
-  <p>{{ user.email }}</p>
-  <p>{{ user.age }}</p>
-  <p>{{ user.role }}</p>
+<body>
+  <main>
+    <h1>Perfil de usuario</h1>
+    <p>Nombre: {{ user.first_name }}</p>
+    <p>Apellido: {{ user.last_name }}</p>
+    <p>Mail: {{ user.email }}</p>
+    <p>Edad: {{ user.age }}</p>
+    <p>Rol: {{ user.role }}</p>
 
-  <div>
     <form action="/api/session/logout" method="get">
       <br />
       <button type="submit">Cerrar Sesión</button>
     </form>
-  </div>
-
-</div>
+  </main>
+</body>

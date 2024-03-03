@@ -1,34 +1,36 @@
 <body>
-    <table id="tabla-productos">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Título</th>
-                <th>Descripción</th>
-                <th>Código</th>
-                <th>Precio</th>
-                <th>Estado</th>
-                <th>Stock</th>
-                <th>Categoría</th>
-                <th>Imagen del Producto</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each productos}}
-            <tr data-producto-id="{{id}}">
-                <td>{{id}}</td>
-                <td>{{titulo}}</td>
-                <td>{{descripcion}}</td>
-                <td>{{codigo}}</td>
-                <td>{{precio}}</td>
-                <td>{{estado}}</td>
-                <td>{{stock}}</td>
-                <td>{{categoria}}</td>
-                <td>{{imagen}}</td>
-            </tr>
-            {{/each}}
-        </tbody>
-    </table>
+    <main>
+        <table id="tabla-productos">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Título</th>
+                    <th>Descripción</th>
+                    <th>Código</th>
+                    <th>Precio</th>
+                    <th>Estado</th>
+                    <th>Stock</th>
+                    <th>Categoría</th>
+                    <th>Imagen del Producto</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each productos}}
+                <tr data-producto-id="{{id}}">
+                    <td>{{id}}</td>
+                    <td>{{titulo}}</td>
+                    <td>{{descripcion}}</td>
+                    <td>{{codigo}}</td>
+                    <td>{{precio}}</td>
+                    <td>{{estado}}</td>
+                    <td>{{stock}}</td>
+                    <td>{{categoria}}</td>
+                    <td>{{imagen}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </main>
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="js/index.js"></script>

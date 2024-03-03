@@ -1,16 +1,18 @@
 <body>
-    <h1>Lista de los productos</h1>
-    {{#each products}}
-    <li>
-        <p>Id: {{this.id}}</p>
-        <p>Título: {{this.title}}</p>
-        <p>Descripción: {{this.description}}</p>
-        <p>Código: {{this.code}}</p>
-        <p>Precio: {{this.price}}</p>
-        <p>Estado: {{this.status}}</p>
-        <p>Stock: {{this.stock}}</p>
-        <p>Categoría: {{this.category}}</p>
-        <p>Imagen del Producto: {{this.thumbnail}}</p>
-    </li>
-    {{/each}}
+    <main>
+        <h1>Lista de los productos</h1>
+        {{#each products}}
+        <li>
+            <p>Id: {{this.id}}</p>
+            <p>Título: {{this.title}}</p>
+            <p>Descripción: {{this.description}}</p>
+            <p>Código: {{this.code}}</p>
+            <p>Precio: {{this.price}}</p>
+            <p>Estado: {{this.status}}</p>
+            <p>Stock: {{this.stock}}</p>
+            <p>Categoría: {{this.category}}</p>
+            <p>Imagen del Producto: {{this.thumbnail}}</p>
+        </li>
+        {{/each}}
+    </main>
 </body>
