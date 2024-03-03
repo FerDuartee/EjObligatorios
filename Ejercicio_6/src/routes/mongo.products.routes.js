@@ -39,7 +39,7 @@ router.get('/', async (req, res) => {
 
         const products = await productManager.getAllProducts(limitInt, pageInt, sort, query);
 
-        return res.status(200).json({ ok: true, message: 'getAllProducts', products });
+        return res.status(200).json({ ok: true, message: 'getAllProducts', products }, {user: req.session.user });
     } catch (error) {
         console.log('Error while getting all products:', error);
         return res.status(500).json({ ok: false, message: 'Error while getting all products', error: error.message });

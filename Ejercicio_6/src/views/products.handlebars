@@ -1,10 +1,18 @@
 <body>
+
+    <h1>Perfil de usuario</h1>
+    <p>{{this.firstName}}</p>
+    <p>{{this.lastName}}</p>
+    <p>{{this.email}}</p>
+    <p>{{this.age}}</p>
+    <p>{{this.role}}</p>
     <div>
-    <form action="/api/session/logout" method="get">
-      <br />
-      <button type="submit">logout</button>
-    </form>
-  </div>
+        <form action="/api/session/logout" method="get">
+            <br />
+            <button type="submit">logout</button>
+        </form>
+    </div>
+
     <h1>Lista de Productos</h1>
     <ul>
         {{#each products.docs}}

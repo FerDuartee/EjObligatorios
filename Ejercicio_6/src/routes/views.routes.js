@@ -1,12 +1,7 @@
 const { Router } = require("express");
-const path = require('path');
-const ProductManager = require('../dao/fileSystem/ProductManager');
-const productsModel = require('../dao/mongoDb/models/products.model');
-const cartsModel = require('../dao/mongoDb/models/carts.models');
 const authMdw = require('../middleware/auth.middleware');
-
-const pathBase = path.join(__dirname, '../dao/fileSystem/productos.json');
-const productManager = new ProductManager(pathBase);
+const cartsModel = require('../dao/mongoDb/models/carts.models');
+const productsModel = require('../dao/mongoDb/models/products.model');
 
 const router = Router();
 
@@ -19,24 +14,25 @@ router.get(`/register`, async (req, res) => {
 });
 
 router.get(`/profile`, authMdw, async (req, res) => {
+
+    // Obtiene los datos del usuario de la sesión
     const user = req.session.user;
 
-    res.render("profile", {
-        user,
-    });
+    // Renderiza la plantilla de perfil con los datos del usuario
+    res.render("profile", { user });
 });
 
 // Ruta para mostrar todos los productos con paginación
-router.get('/products', async (req, res) => {
+router.get('/products', authMdw,async (req, res) => {
     try {
         const options = {
             page: req.query.page || 1,
             limit: req.query.limit || 10,
             lean: true
         };
-
+        const user = req.session.user;
         const products = await productsModel.paginate({}, options);
-        res.render('products', { products: products });
+        res.render('products', { products: products },{user});
     } catch (error) {
         console.error('Error al obtener productos:', error);
         res.status(500).json({ message: 'Error interno del servidor' });
