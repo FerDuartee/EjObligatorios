@@ -19,11 +19,11 @@ router.get(`/profile`, authMdw, async (req, res) => {
     const user = req.session.user;
 
     // Renderiza la plantilla de perfil con los datos del usuario
-    res.render("profile", { user });
+    res.render("profile", { user: user });
 });
 
 // Ruta para mostrar todos los productos con paginación
-router.get('/products', authMdw,async (req, res) => {
+router.get('/products', authMdw, async (req, res) => {
     try {
         const options = {
             page: req.query.page || 1,
@@ -32,7 +32,7 @@ router.get('/products', authMdw,async (req, res) => {
         };
         const user = req.session.user;
         const products = await productsModel.paginate({}, options);
-        res.render('products', { products: products },{user});
+        res.render('products', { user: user, products: products });
     } catch (error) {
         console.error('Error al obtener productos:', error);
         res.status(500).json({ message: 'Error interno del servidor' });

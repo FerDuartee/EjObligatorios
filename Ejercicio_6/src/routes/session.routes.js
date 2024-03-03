@@ -25,7 +25,7 @@ router.get('/logout', (req, res) => {
   });
 });
 
-router.post("/login",async (req, res) => {
+router.post("/login", async (req, res) => {
   try {
     // Verificar las credenciales y obtener los datos del usuario
     const { email, password } = req.body;
@@ -43,14 +43,7 @@ router.post("/login",async (req, res) => {
     // Guardar los datos del usuario (sin la contraseña) en la sesión
     req.session.user = userWithoutPassword;
 
-    // Redirigir a una página después del inicio de sesión
-    return res.render("products", {
-      firstName: req.session?.user?.first_name || findUser.first_name,
-      lastName: req.session?.user?.last_name || findUser.last_name,
-      email: req.session?.user?.email || email,
-      age: req.session?.user?.age || findUser.age,
-      role: req.session?.user?.role || user.role
-    });
+    return res.redirect("http://localhost:8080/products");
   } catch (error) {
     console.error("Error en el inicio de sesión:", error);
     res.status(500).json({ message: "Error en el inicio de sesión" });
