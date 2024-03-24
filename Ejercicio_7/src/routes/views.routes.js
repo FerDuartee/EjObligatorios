@@ -46,12 +46,16 @@ router.get("/failregister", async (req, res) => {
 });
 
 router.get(`/profile`, authMdw, async (req, res) => {
+    try {
+        // Obtiene los datos del usuario de la sesión
+        const user = req.session.user;
 
-    // Obtiene los datos del usuario de la sesión
-    const user = req.session.user;
-
-    // Renderiza la plantilla de perfil con los datos del usuario
-    res.render("profile", { user: user });
+        // Renderiza la plantilla de perfil con los datos del usuario
+        res.render("profile", { user: user });
+    } catch (error) {
+        console.error('Error al obtener perfil de usuario:', error);
+        res.status(500).send('Error interno del servidor.');
+    }
 });
 
 // Ruta para mostrar todos los productos con paginación

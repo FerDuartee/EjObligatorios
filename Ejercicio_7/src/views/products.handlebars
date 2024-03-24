@@ -5,8 +5,14 @@
         <p>Mail: <span class="user-email">{{ user.email }}</span></p>
         <p>Edad: <span class="user-age">{{ user.age }}</span></p>
         <p>Rol: <span class="user-role">{{ user.role }}</span></p>
+        <form action="/profile" method="get">
+            <button type="submit">Ver perfil</button>
+        </form>
         <form action="/api/session/logout" method="get">
             <button type="submit">Cerrar sesión</button>
+        </form>
+        <form action="/api/session/current" method="get">
+            <button type="submit">Modelo de sesión</button>
         </form>
 
 
