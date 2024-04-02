@@ -6,7 +6,6 @@ const handlebars = require('express-handlebars');
 const http = require('http');
 const mongoose = require('mongoose');
 const mongoStore = require("connect-mongo");
-const passport = require("passport");
 const path = require('path');
 const session = require("express-session");
 const socketIo = require('socket.io');
@@ -51,15 +50,13 @@ app.use(
 );
 
 // Inicializar Passport.js
+const passport = require("passport");
 const initializePassport = require("./config/passport.config");
 initializePassport();
 
 app.use(flash());
-
 app.use(passport.initialize());
 app.use(passport.session());
-
-// Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -121,6 +118,8 @@ app.get("/", (req, res) => {
 
 // Mostrar rutas
 app.use("/api/session/", sessionRoutes);
+
+// Iniciar el servidor
 server.listen(port, () => {
     displayRoutes(app);
     console.log(`Servidor escuchando en http://localhost:${port}`);
