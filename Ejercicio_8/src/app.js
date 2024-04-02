@@ -14,7 +14,7 @@ const flash = require('connect-flash');
 // Rutas
 const productsRoutes = require("./routes/products.routes");
 const cartsRoutes = require("./routes/carts.routes");
-const sessionRoutes = require("./routes/session.routes");
+const sessionRoutes = require("./routes/auth.routes");
 const routerViews = require('./routes/views.routes');
 
 // Managers
