@@ -1,0 +1,17 @@
+<body>
+  <main>
+    <h1>Perfil de usuario</h1>
+    <p>Nombre: {{ user.first_name }}</p>
+    <p>Apellido: {{ user.last_name }}</p>
+    <p>Mail: {{ user.email }}</p>
+    <p>Edad: {{ user.age }}</p>
+    <p>Contraseña: {{ user.password }}</p>
+    <p>Rol: {{ user.role }}</p>
+    <form action="/api/session/logout" method="get">
+      <button type="submit">Cerrar Sesión</button>
+    </form>
+    <form action="/products" method="get">
+      <button type="submit">Volver al inicio</button>
+    </form>
+  </main>
+</body>
