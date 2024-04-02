@@ -1,15 +1,15 @@
-const express = require('express');
-const path = require('path');
-const passport = require("passport");
-const session = require("express-session");
-const mongoose = require('mongoose');
-const mongoStore = require("connect-mongo");
-const handlebars = require('express-handlebars');
-const http = require('http');
-const socketIo = require('socket.io');
 const cookieParser = require("cookie-parser");
 const displayRoutes = require("express-routemap");
+const express = require('express');
 const flash = require('connect-flash');
+const handlebars = require('express-handlebars');
+const http = require('http');
+const mongoose = require('mongoose');
+const mongoStore = require("connect-mongo");
+const passport = require("passport");
+const path = require('path');
+const session = require("express-session");
+const socketIo = require('socket.io');
 
 // Rutas
 // const productsRoutes = require("./routes/products.routes");

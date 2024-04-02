@@ -47,7 +47,7 @@
 //     }
 // });
 
-// // Ruta para agregar productos a un carrito de compras
+// Ruta para agregar productos a un carrito de compras
 // router.post('/:cid/product/:pid', async (req, res) => {
 //     try {
 //         const cartId = parseInt(req.params.cid, 10);
