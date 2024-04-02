@@ -135,18 +135,18 @@ router.get("/chat", (req, res) => {
 
 router.get('/api/session/current', authMdw, (req, res) => {
     // Verificar si hay un usuario autenticado en la sesión
-    if (req.session.user) {
+    if (req.session) {
         // Devolver el usuario actualmente autenticado
         return res.json({
             success: true,
             message: "Usuario autenticado",
-            user: req.session.user
+            session: req.session
         });
     } else {
         // Si no hay un usuario autenticado, devolver un mensaje de error
-        return res.status(401).json({ 
+        return res.status(401).json({
             success: false,
-            message: "No hay usuario autenticado" 
+            message: "No hay usuario autenticado"
         });
     }
 });
