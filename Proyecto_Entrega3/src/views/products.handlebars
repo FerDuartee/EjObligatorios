@@ -1,0 +1,43 @@
+<body>
+    <main>
+        <h2>Bienvenido <span class="user-first-name">{{ user.first_name }}</span> <span class="user-last-name">{{
+                user.last_name }}</span></h2>
+        <p>Mail: <span class="user-email">{{ user.email }}</span></p>
+        <p>Edad: <span class="user-age">{{ user.age }}</span></p>
+        <p>Rol: <span class="user-role">{{ user.role }}</span></p>
+        <form action="/profile" method="get">
+            <button type="submit">Ver perfil</button>
+        </form>
+        <form action="/api/session/logout" method="get">
+            <button type="submit">Cerrar sesión</button>
+        </form>
+        <form action="/api/session/current" method="get">
+            <button type="submit">Modelo de sesión</button>
+        </form>
+
+
+        <h1>Lista de Productos</h1>
+        <ul class="product-list">
+            {{#each products.docs}}
+            <li class="product-item">
+                <h2 class="product-title">{{this.title}}</h2>
+                <p class="product-price">Precio: ${{this.price}}</p>
+                <p class="product-category">Categoría: {{this.category}}</p>
+                <p class="product-description">{{this.description}}</p>
+                <!-- Botón para agregar al carrito -->
+                <form action="/carts/{{cartId}}/products/{{this._id}}" method="POST" class="add-to-cart-form">
+                    <button type="submit" class="add-to-cart-button">Agregar al carrito</button>
+                </form>
+            </li>
+            {{/each}}
+        </ul>
+    </main>
+    <ul class="pagination">
+        {{#if products.hasPrevPage}}
+        <li><a href="?page={{products.prevPage}}" class="prev-page">Anterior</a></li>
+        {{/if}}
+        {{#if products.hasNextPage}}
+        <li><a href="?page={{products.nextPage}}" class="next-page">Siguiente</a></li>
+        {{/if}}
+    </ul>
+</body>
