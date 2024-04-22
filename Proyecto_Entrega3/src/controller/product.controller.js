@@ -1,6 +1,6 @@
-const ProductManagerMongo = require('../dao/mongoDb/managers/Product.Manager');
+const ProductDao = require('../dao/Product.dao');
 
-const productManager = new ProductManagerMongo();
+const productService = new ProductDao();
 
 exports.getAllProducts = async (req, res) => {
   try {
@@ -9,7 +9,7 @@ exports.getAllProducts = async (req, res) => {
     const limitInt = parseInt(limit);
     const pageInt = parseInt(page);
 
-    const products = await productManager.getAllProducts(limitInt, pageInt, sort, query);
+    const products = await productService.getAllProducts(limitInt, pageInt, sort, query);
 
     res.status(200).json({ ok: true, message: 'getAllProducts', products });
   } catch (error) {
@@ -21,7 +21,7 @@ exports.getAllProducts = async (req, res) => {
 exports.getProductById = async (req, res) => {
   try {
     const productId = req.params.pid; // Aquí se obtiene el valor de 'pid' de la URL
-    const product = await productManager.getProductById(productId); // Aquí se pasa el valor de 'pid' al manager para obtener el producto
+    const product = await productService.getProductById(productId); // Aquí se pasa el valor de 'pid' al manager para obtener el producto
 
     if (!product) {
       return res.status(404).json({
@@ -41,7 +41,7 @@ exports.createProduct = async (req, res) => {
   try {
     const productBody = req.body;
 
-    const newProduct = await productManager.createProduct(productBody);
+    const newProduct = await productService.createProduct(productBody);
     if (!newProduct) {
       return res.json({
         message: `The product is already registered`,
@@ -63,7 +63,7 @@ exports.updateProduct = async (req, res) => {
   const updatedProductData = req.body;
 
   try {
-    const updatedProduct = await productManager.updateProduct(productId, updatedProductData);
+    const updatedProduct = await productService.updateProduct(productId, updatedProductData);
     res.json({ message: 'Product updated successfully', product: updatedProduct });
   } catch (error) {
     console.error('Error updating product:', error);
@@ -75,7 +75,7 @@ exports.deleteProduct = async (req, res) => {
   const productId = req.params.pid;
 
   try {
-    await productManager.deleteProduct(productId);
+    await productService.deleteProduct(productId);
     res.json({ message: 'Product deleted successfully' });
   } catch (error) {
     console.error('Error deleting product:', error);

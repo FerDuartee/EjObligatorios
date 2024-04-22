@@ -1,6 +1,6 @@
 const passport = require("passport");
 const local = require("passport-local");
-const userModel = require("../dao/mongoDb/models/user.model");
+const userModel = require("../models/user.model");
 const bcrypt = require("bcrypt");
 
 const localStrategy = local.Strategy;

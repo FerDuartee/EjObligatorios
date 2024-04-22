@@ -1,11 +1,11 @@
-const CartManagerMongo = require('../dao/mongoDb/managers/Cart.Manager');
+const CartDao = require('../dao/Cart.dao');
 
-const cartManagerMongo = new CartManagerMongo();
+const cartService = new CartDao();
 
 exports.getCartById = async (req, res) => {
   try {
     const { cid } = req.params;
-    const cart = await cartManagerMongo.getCartById(cid);
+    const cart = await cartService.getCartById(cid);
     if (!cart) {
       return res.status(404).json({ message: 'Cart not found' });
     }
@@ -18,7 +18,7 @@ exports.getCartById = async (req, res) => {
 
 exports.createCart = async (req, res) => {
   try {
-    const newCart = await cartManagerMongo.createCart();
+    const newCart = await cartService.createCart();
     res.status(201).json(newCart);
   } catch (error) {
     console.error(error);
@@ -29,7 +29,7 @@ exports.createCart = async (req, res) => {
 exports.addProductToCart = async (req, res) => {
   try {
     const { cid, pid } = req.params; // Corregido a pid
-    const updatedCart = await cartManagerMongo.addProductToCart(cid, pid);
+    const updatedCart = await cartService.addProductToCart(cid, pid);
     res.status(200).json(updatedCart);
   } catch (error) {
     console.error(error);
@@ -40,7 +40,7 @@ exports.addProductToCart = async (req, res) => {
 exports.removeProductFromCart = async (req, res) => {
   try {
     const { cid, pid } = req.params; // Corregido a pid
-    const updatedCart = await cartManagerMongo.removeProductFromCart(cid, pid);
+    const updatedCart = await cartService.removeProductFromCart(cid, pid);
     res.status(200).json(updatedCart);
   } catch (error) {
     console.error(error);
@@ -52,7 +52,7 @@ exports.updateCart = async (req, res) => {
   try {
     const { cid } = req.params;
     const { productId } = req.body;
-    const updatedCart = await cartManagerMongo.updateCart(cid, productId);
+    const updatedCart = await cartService.updateCart(cid, productId);
     res.status(200).json(updatedCart);
   } catch (error) {
     console.error(error);
@@ -64,7 +64,7 @@ exports.updateProductQuantityInCart = async (req, res) => {
   try {
     const { cid, pid } = req.params; // Corregido a pid
     const { quantity } = req.body;
-    const updatedCart = await cartManagerMongo.updateProductQuantityInCart(cid, pid, quantity);
+    const updatedCart = await cartService.updateProductQuantityInCart(cid, pid, quantity);
     res.status(200).json(updatedCart);
   } catch (error) {
     console.error(error);
@@ -75,7 +75,7 @@ exports.updateProductQuantityInCart = async (req, res) => {
 exports.removeAllProductsFromCart = async (req, res) => {
   try {
     const { cid } = req.params;
-    const updatedCart = await cartManagerMongo.removeAllProductsFromCart(cid);
+    const updatedCart = await cartService.removeAllProductsFromCart(cid);
     res.status(200).json(updatedCart);
   } catch (error) {
     console.error(error);

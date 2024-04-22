@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-const userModel = require("../dao/mongoDb/models/user.model");
+const userModel = require("../models/user.model");
 
 exports.logout = (req, res) => {
   req.session.destroy(err => {

@@ -1,6 +1,6 @@
 const passport = require("passport");
-const productsModel = require('../dao/mongoDb/models/products.model');
-const cartsModel = require('../dao/mongoDb/models/carts.models');
+const productsModel = require('../models/products.model');
+const cartsModel = require('../models/carts.models');
 
 exports.getLoginPage = async (req, res) => {
     res.render("login");
