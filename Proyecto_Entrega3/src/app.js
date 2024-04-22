@@ -11,19 +11,13 @@ const session = require("express-session");
 const socketIo = require('socket.io');
 
 // Rutas
-// const productsRoutes = require("./routes/products.routes");
-// const cartsRoutes = require("./routes/carts.routes");
 const sessionRoutes = require("./routes/auth.routes");
 const routerViews = require('./routes/views.routes');
 
 // Managers
-const productsRoutesMongo = require("./routes/mongo.products.routes");
-const cartsRoutesMongo = require("./routes/mongo.carts.routes");
-// const ProductManager = require('./dao/fileSystem/ProductManager');
-// const ChatManager = require('./dao/mongoDb/managers/Chat.Manager');
+const productsRoutes = require("./routes/mongo.products.routes");
+const cartsRoutes = require("./routes/mongo.carts.routes");
 
-// const filePath = path.join(__dirname, './dao/fileSystem/productos.json');
-// const productManager = new ProductManager(filePath);
 // const chatManager = new ChatManager(filePath);
 
 const app = express();
@@ -63,10 +57,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser(COOKIE_SIGN));
 
 // Rutas
-app.use(`${API_BASE_PATH}/cartmongo`, cartsRoutesMongo);
-app.use(`${API_BASE_PATH}/productsmongo`, productsRoutesMongo);
-// app.use(`${API_BASE_PATH}/products`, productsRoutes);
-// app.use(`${API_BASE_PATH}/carts`, cartsRoutes);
+app.use(`${API_BASE_PATH}/cart`, cartsRoutes);
+app.use(`${API_BASE_PATH}/product`, productsRoutes);
 app.use(`${API_BASE_PATH}/session`, sessionRoutes);
 app.use("/", routerViews);
 
