@@ -1,7 +1,7 @@
-import bcrypt from 'bcrypt';
-import userModel from "../dao/mongoDb/models/user.model";
+const bcrypt = require('bcrypt');
+const userModel = require("../dao/mongoDb/models/user.model");
 
-const logout = (req, res) => {
+exports.logout = (req, res) => {
   req.session.destroy(err => {
     if (err) {
       console.error("Error al cerrar sesión:", err);
@@ -11,7 +11,7 @@ const logout = (req, res) => {
   });
 };
 
-const login = async (req, res) => {
+exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await userModel.findOne({ email });
@@ -38,7 +38,7 @@ const login = async (req, res) => {
   }
 };
 
-const register = async (req, res) => {
+exports.register = async (req, res) => {
   try {
     const { first_name, last_name, email, age, password } = req.body;
 
@@ -65,5 +65,3 @@ const register = async (req, res) => {
     return res.status(500).json({ message: "Error al registrar usuario" });
   }
 };
-
-export { logout, login, register };
