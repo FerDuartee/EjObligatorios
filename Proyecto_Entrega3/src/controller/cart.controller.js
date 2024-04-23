@@ -1,8 +1,8 @@
-const CartDao = require('../dao/cart.dao');
+import CartDao from "../dao/Cart.dao.js";
 
 const cartService = new CartDao();
 
-exports.getCartById = async (req, res) => {
+export const getCartById = async (req, res) => {
   try {
     const { cid } = req.params;
     const cart = await cartService.getCartById(cid);
@@ -16,7 +16,7 @@ exports.getCartById = async (req, res) => {
   }
 };
 
-exports.createCart = async (req, res) => {
+export const createCart = async (req, res) => {
   try {
     const newCart = await cartService.createCart();
     res.status(201).json(newCart);
@@ -26,7 +26,7 @@ exports.createCart = async (req, res) => {
   }
 };
 
-exports.addProductToCart = async (req, res) => {
+export const addProductToCart = async (req, res) => {
   try {
     const { cid, pid } = req.params; // Corregido a pid
     const updatedCart = await cartService.addProductToCart(cid, pid);
@@ -37,7 +37,7 @@ exports.addProductToCart = async (req, res) => {
   }
 };
 
-exports.removeProductFromCart = async (req, res) => {
+export const removeProductFromCart = async (req, res) => {
   try {
     const { cid, pid } = req.params; // Corregido a pid
     const updatedCart = await cartService.removeProductFromCart(cid, pid);
@@ -48,7 +48,7 @@ exports.removeProductFromCart = async (req, res) => {
   }
 };
 
-exports.updateCart = async (req, res) => {
+export const updateCart = async (req, res) => {
   try {
     const { cid } = req.params;
     const { productId } = req.body;
@@ -60,7 +60,7 @@ exports.updateCart = async (req, res) => {
   }
 };
 
-exports.updateProductQuantityInCart = async (req, res) => {
+export const updateProductQuantityInCart = async (req, res) => {
   try {
     const { cid, pid } = req.params; // Corregido a pid
     const { quantity } = req.body;
@@ -72,7 +72,7 @@ exports.updateProductQuantityInCart = async (req, res) => {
   }
 };
 
-exports.removeAllProductsFromCart = async (req, res) => {
+export const removeAllProductsFromCart = async (req, res) => {
   try {
     const { cid } = req.params;
     const updatedCart = await cartService.removeAllProductsFromCart(cid);

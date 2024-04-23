@@ -1,6 +1,6 @@
-const cartsModel = require("../models/carts.models");
+import cartsModel from '../models/carts.models.js';
 
-class CartManagerMongo {
+export default class CartDao {
   getCartById = async (id) => {
     try {
       const cart = await cartsModel.findById(id);
@@ -20,6 +20,7 @@ class CartManagerMongo {
       throw error;
     }
   };
+  
   addProductToCart = async (cartId, productId) => {
     try {
       const cart = await cartsModel.findById(cartId);
@@ -126,5 +127,3 @@ class CartManagerMongo {
     }
   };
 }
-
-module.exports = CartManagerMongo;

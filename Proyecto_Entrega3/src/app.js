@@ -1,28 +1,26 @@
-const cookieParser = require("cookie-parser");
-const displayRoutes = require("express-routemap");
-const express = require('express');
-const flash = require('connect-flash');
-const handlebars = require('express-handlebars');
-const http = require('http');
-const mongoose = require('mongoose');
-const mongoStore = require("connect-mongo");
-const path = require('path');
-const session = require("express-session");
-const socketIo = require('socket.io');
-
-// Rutas
-const sessionRoutes = require("./routes/auth.routes");
-const routerViews = require('./routes/views.routes');
+import cookieParser from "cookie-parser";
+import displayRoutes from "express-routemap";
+import express from 'express';
+import flash from 'connect-flash';
+import handlebars from 'express-handlebars';
+import http from 'http';
+import mongoose from 'mongoose';
+import mongoStore from "connect-mongo";
+import path from 'path';
+import session from "express-session";
+import { Server } from 'socket.io'; // Importar Server de socket.io
 
 // Managers
-const productsRoutes = require("./routes/mongo.products.routes");
-const cartsRoutes = require("./routes/mongo.carts.routes");
-
-// const chatManager = new ChatManager(filePath);
+import productsRoutes from "./routes/products.routes.js";
+import cartsRoutes from "./routes/carts.routes.js";
+import authRoutes from './routes/auth.routes.js'
+// import routerViews from './routes/views.routes.js';
 
 const app = express();
 const server = http.createServer(app);
-const io = socketIo(server);
+
+// Crear una instancia de socket.io pasando el servidor http
+const io = new Server(server);
 
 const port = 8080;
 const API_BASE_PATH = "/api";
@@ -44,8 +42,8 @@ app.use(
 );
 
 // Inicializar Passport.js
-const passport = require("passport");
-const initializePassport = require("./config/passport.config");
+import passport from "passport";
+import initializePassport from "./config/passport.config.js";
 initializePassport();
 
 app.use(flash());
@@ -53,19 +51,19 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser(COOKIE_SIGN));
 
 // Rutas
 app.use(`${API_BASE_PATH}/cart`, cartsRoutes);
 app.use(`${API_BASE_PATH}/product`, productsRoutes);
-app.use(`${API_BASE_PATH}/session`, sessionRoutes);
-app.use("/", routerViews);
+app.use(`${API_BASE_PATH}/session`, authRoutes);
+// app.use("/", routerViews);
 
 // Configurar handlebars
-app.engine("handlebars", handlebars.engine());
-app.set("views", path.join(`${__dirname}/views`));
-app.set("view engine", "handlebars");
+// app.engine("handlebars", handlebars.engine());
+// app.set("views", path.join(`${__dirname}/views`));
+// app.set("view engine", "handlebars");
 
 mongoose.connect(MONGO_URL)
     .then(() => {
@@ -109,7 +107,7 @@ app.get("/", (req, res) => {
 });
 
 // Mostrar rutas
-app.use("/api/session/", sessionRoutes);
+app.use("/api/session/", authRoutes);
 
 // Iniciar el servidor
 server.listen(port, () => {

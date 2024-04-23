@@ -1,7 +1,7 @@
-const passport = require("passport");
-const local = require("passport-local");
-const userModel = require("../models/user.model");
-const bcrypt = require("bcrypt");
+import passport from 'passport';
+import local from 'passport-local';
+import userModel from '../models/user.model.js';
+import bcrypt from 'bcrypt';
 
 const localStrategy = local.Strategy;
 
@@ -86,4 +86,4 @@ const initializePassport = () => {
     });
 };
 
-module.exports = initializePassport;
+export default initializePassport;

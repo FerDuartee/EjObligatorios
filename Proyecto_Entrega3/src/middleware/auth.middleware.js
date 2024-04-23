@@ -20,4 +20,4 @@ function authMdw(req, res, next) {
   return res.redirect("/login");
 }
 
-module.exports = authMdw;
+export default authMdw;

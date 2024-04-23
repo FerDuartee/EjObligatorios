@@ -1,6 +1,6 @@
-const messageModel = require("../models/messages.models");
+import messageModel from '../models/messages.models.js';
 
-class ChatManager {
+export default class ChatManager {
     async saveMessage(user, message) {
         try {
             // Guardar el mensaje en MongoDB
@@ -23,5 +23,3 @@ class ChatManager {
         }
     }
 }
-
-module.exports = ChatManager;

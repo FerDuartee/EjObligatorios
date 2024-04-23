@@ -1,8 +1,8 @@
-const ProductDao = require('../dao/product.dao');
+import ProductDao from "../dao/Product.dao.js";
 
 const productService = new ProductDao();
 
-exports.getAllProducts = async (req, res) => {
+export const getAllProducts = async (req, res) => {
   try {
     const { limit = 10, page = 1, sort, ...query } = req.query;
 
@@ -18,7 +18,7 @@ exports.getAllProducts = async (req, res) => {
   }
 };
 
-exports.getProductById = async (req, res) => {
+export const getProductById = async (req, res) => {
   try {
     const productId = req.params.pid; // Aquí se obtiene el valor de 'pid' de la URL
     const product = await productService.getProductById(productId); // Aquí se pasa el valor de 'pid' al manager para obtener el producto
@@ -37,7 +37,7 @@ exports.getProductById = async (req, res) => {
   }
 };
 
-exports.createProduct = async (req, res) => {
+export const createProduct = async (req, res) => {
   try {
     const productBody = req.body;
 
@@ -58,7 +58,7 @@ exports.createProduct = async (req, res) => {
   }
 };
 
-exports.updateProduct = async (req, res) => {
+export const updateProduct = async (req, res) => {
   const productId = req.params.pid;
   const updatedProductData = req.body;
 
@@ -71,7 +71,7 @@ exports.updateProduct = async (req, res) => {
   }
 };
 
-exports.deleteProduct = async (req, res) => {
+export const deleteProduct = async (req, res) => {
   const productId = req.params.pid;
 
   try {

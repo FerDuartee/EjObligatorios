@@ -1,36 +1,27 @@
-const bcrypt = require('bcrypt');
-const userModel = require("../models/user.model");
+import AuthDao from "../dao/auth.dao.js";
 
-exports.logout = (req, res) => {
-  req.session.destroy(err => {
-    if (err) {
-      console.error("Error al cerrar sesión:", err);
-      return res.redirect('/');
-    }
-    res.redirect('/login');
-  });
+const authService = new AuthDao();
+
+export const logout = async (req, res) => {
+  try {
+    await authService.logout(req);
+    res.redirect('/');
+  } catch (error) {
+    console.error("Error al cerrar sesión:", error);
+    res.redirect('/');
+  }
 };
 
-exports.login = async (req, res) => {
+export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await userModel.findOne({ email });
+    const result = await authService.login(email, password);
 
-    if (!user) {
-      return res.json({ message: "Usuario no encontrado" });
+    if (result.error) {
+      return res.json({ message: result.error });
     }
 
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-
-    if (!isPasswordValid) {
-      return res.json({ message: "Credenciales inválidas" });
-    }
-
-    const userWithoutPassword = { ...user.toObject() };
-    delete userWithoutPassword.password;
-
-    req.session.user = userWithoutPassword;
-
+    req.session.user = result.user;
     return res.redirect("http://localhost:8080/products");
   } catch (error) {
     console.error("Error en el inicio de sesión:", error);
@@ -38,27 +29,11 @@ exports.login = async (req, res) => {
   }
 };
 
-exports.register = async (req, res) => {
+export const register = async (req, res) => {
   try {
-    const { first_name, last_name, email, age, password } = req.body;
+    const result = await authService.register(req.body);
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const addUser = {
-      first_name,
-      last_name,
-      email,
-      age,
-      password: hashedPassword,
-    };
-
-    const newUser = await userModel.create(addUser);
-
-    if (!newUser) {
-      return res.status(500).json({ message: `Error al registrar usuario` });
-    }
-
-    req.session.user = { email, firstName: first_name, lastName: last_name };
+    req.session.user = result;
     return res.redirect("/login");
   } catch (error) {
     console.error("Error al registrar usuario:", error);

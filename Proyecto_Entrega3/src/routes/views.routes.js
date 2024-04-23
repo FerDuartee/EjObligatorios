@@ -1,7 +1,8 @@
-const express = require('express');
-const router = express.Router();
-const viewsController = require('../controller/views.controller');
-const authMdw = require('../middleware/auth.middleware'); // Importamos el middleware
+import { Router } from 'express';
+import viewsController from '../controller/views.controller.js';
+import authMdw from '../middleware/auth.middleware.js';
+
+const router = Router();
 
 // Rutas de autenticación
 router.get("/login", viewsController.getLoginPage);
@@ -22,4 +23,4 @@ router.get("/chat", viewsController.getChatPage);
 // API endpoint
 router.get('/api/session/current', authMdw, viewsController.getCurrentSession);
 
-module.exports = router;
+export default router;

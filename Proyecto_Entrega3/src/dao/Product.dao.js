@@ -1,6 +1,6 @@
-const productsModel = require("../models/products.model");
+import productsModel from '../models/products.model.js';
 
-class ProductManagerMongo {
+export default class ProductDao {
   getAllProducts = async (limit = 10, page = 1, sort = '', query = {}) => {
     try {
       // Realizar la consulta con paginación usando mongoose-pagination-v2
@@ -79,7 +79,4 @@ class ProductManagerMongo {
       throw error;
     }
   };
-
 }
-
-module.exports = ProductManagerMongo;

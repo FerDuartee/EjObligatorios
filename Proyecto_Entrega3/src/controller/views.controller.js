@@ -1,6 +1,6 @@
-const passport = require("passport");
-const productsModel = require('../models/products.model');
-const cartsModel = require('../models/carts.models');
+import passport from 'passport';
+import productsModel from '../models/products.model.js';
+import cartsModel from '../models/carts.models.js';
 
 exports.getLoginPage = async (req, res) => {
     res.render("login");
@@ -117,3 +117,5 @@ exports.getCurrentSession = (req, res) => {
         });
     }
 };
+
+export default viewsController;
