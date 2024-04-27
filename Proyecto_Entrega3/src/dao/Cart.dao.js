@@ -126,4 +126,30 @@ export default class CartDao {
       throw error;
     }
   };
+
+  purchaseCart = async (cartId) => {
+    const cart = await CartModel.findById(cartId).populate('products.product');
+  
+    if (!cart) {
+      throw new Error('Carrito no encontrado');
+    }
+  
+    for (const item of cart.products) {
+      const product = await ProductModel.findById(item.product._id);
+  
+      if (!product) {
+        throw new Error(`Producto ${item.product._id} no encontrado`);
+      }
+  
+      if (product.stock < item.quantity) {
+        throw new Error(`No hay suficiente stock para el producto ${product.title}`);
+      }
+  
+      product.stock -= item.quantity;
+      await product.save();
+    }
+  
+    // Aquí podrías realizar otras acciones, como generar el ticket de compra, etc.
+    return { message: 'Compra realizada con éxito' };
+  };
 }

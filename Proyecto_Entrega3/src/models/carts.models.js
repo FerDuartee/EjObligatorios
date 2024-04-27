@@ -3,6 +3,12 @@ import mongoose from 'mongoose';
 const collectionName = 'carts';
 
 const cartSchema = new mongoose.Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'users',
+    unique: true,
+    required: true
+  },
   products: [{
       product: {
           type: mongoose.Schema.Types.ObjectId,
@@ -10,10 +16,11 @@ const cartSchema = new mongoose.Schema({
       },
       quantity: {
           type: Number,
-          default: 1 // Por defecto, la cantidad será 1 al agregar un producto al carrito
+          default: 1
       }
   }]
 });
+
 
 cartSchema.pre("find", function () {
   this.populate("products.product");

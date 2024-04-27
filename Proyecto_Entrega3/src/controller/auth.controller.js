@@ -1,5 +1,5 @@
 import AuthDao from "../dao/auth.dao.js";
-
+// import userRepository from "../Repository/userRepository.js";
 const authService = new AuthDao();
 
 export const logout = async (req, res) => {
@@ -40,3 +40,20 @@ export const register = async (req, res) => {
     return res.status(500).json({ message: "Error al registrar usuario" });
   }
 };
+
+// export const getCurrentUser = async (email) => {
+//   const user = await userRepository.getUserByEmail(email);
+
+//   if (!user) {
+//     throw new Error('Usuario no encontrado');
+//   }
+
+//   // Crear DTO del usuario con la información necesaria
+//   const userDTO = {
+//     email: user.email,
+//     role: user.role
+//     // Puedes incluir más campos según sea necesario
+//   };
+
+//   return userDTO;
+// };

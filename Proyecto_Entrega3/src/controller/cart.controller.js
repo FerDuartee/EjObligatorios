@@ -82,3 +82,15 @@ export const removeAllProductsFromCart = async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 };
+
+export const purchaseCart = async (req, res) => {
+  const { cid } = req.params;
+
+  try {
+    const result = await cartService.purchaseCart(cid);
+    return res.status(200).json(result);
+  } catch (error) {
+    console.error('Error al procesar la compra:', error);
+    return res.status(500).json({ error: 'Error interno del servidor' });
+  }
+};

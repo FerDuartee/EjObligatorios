@@ -64,5 +64,15 @@ export default class AuthDao {
             throw new Error("Error al registrar usuario");
         }
     };
+
+    getCurrentUser = async (req, res) => {
+        try {
+          const userDTO = await authService.getCurrentUser(req.session.user.email);
+          return res.status(200).json(userDTO);
+        } catch (error) {
+          console.error('Error al obtener el usuario actual:', error);
+          return res.status(500).json({ error: 'Error interno del servidor' });
+        }
+      };
 }
 

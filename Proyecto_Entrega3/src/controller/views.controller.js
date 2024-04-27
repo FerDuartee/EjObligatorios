@@ -2,35 +2,35 @@ import passport from 'passport';
 import productsModel from '../models/products.model.js';
 import cartsModel from '../models/carts.models.js';
 
-exports.getLoginPage = async (req, res) => {
+export const getLoginPage = async (req, res) => {
     res.render("login");
 };
 
-exports.postLogin = passport.authenticate("login", {
+export const postLogin = passport.authenticate("login", {
     successRedirect: "/products",
     failureRedirect: "/faillogin",
     failureFlash: true,
 });
 
-exports.getFailLogin = async (req, res) => {
+export const getFailLogin = async (req, res) => {
     res.send({ error: "login strategy failed" });
 };
 
-exports.getRegisterPage = async (req, res) => {
+export const getRegisterPage = async (req, res) => {
     res.render("register");
 };
 
-exports.postRegister = passport.authenticate("register", {
+export const postRegister = passport.authenticate("register", {
     successRedirect: "/login",
     failureRedirect: "/failregister",
     failureFlash: true,
 });
 
-exports.getFailRegister = async (req, res) => {
+export const getFailRegister = async (req, res) => {
     res.send({ error: "register strategy failed" });
 };
 
-exports.getProfilePage = async (req, res) => {
+export const getProfilePage = async (req, res) => {
     try {
         const user = req.session.user;
         res.render("profile", { user: user });
@@ -40,7 +40,7 @@ exports.getProfilePage = async (req, res) => {
     }
 };
 
-exports.getProductsPage = async (req, res) => {
+export const getProductsPage = async (req, res) => {
     try {
         const options = {
             page: req.query.page || 1,
@@ -56,7 +56,7 @@ exports.getProductsPage = async (req, res) => {
     }
 };
 
-exports.getCartPage = async (req, res) => {
+export const getCartPage = async (req, res) => {
     const cartId = req.params.cid;
     try {
         const cart = await cartsModel.findById(cartId).populate('products.product').lean();
@@ -67,7 +67,7 @@ exports.getCartPage = async (req, res) => {
     }
 };
 
-exports.getHomePage = async (req, res) => {
+export const getHomePage = async (req, res) => {
     try {
         const limit = Number(req.query.limit);
         let products = await productManager.getProducts();
@@ -83,7 +83,7 @@ exports.getHomePage = async (req, res) => {
     }
 };
 
-exports.getRealTimeProductsPage = async (req, res) => {
+export const getRealTimeProductsPage = async (req, res) => {
     try {
         const limit = Number(req.query.limit);
         let products = await productManager.getProducts();
@@ -99,11 +99,11 @@ exports.getRealTimeProductsPage = async (req, res) => {
     }
 };
 
-exports.getChatPage = (req, res) => {
+export const getChatPage = (req, res) => {
     res.render("chat", {})
 };
 
-exports.getCurrentSession = (req, res) => {
+export const getCurrentSession = (req, res) => {
     if (req.session) {
         return res.json({
             success: true,
@@ -117,5 +117,3 @@ exports.getCurrentSession = (req, res) => {
         });
     }
 };
-
-export default viewsController;

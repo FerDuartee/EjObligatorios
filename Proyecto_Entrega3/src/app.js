@@ -7,6 +7,7 @@ import http from 'http';
 import mongoose from 'mongoose';
 import mongoStore from "connect-mongo";
 import path from 'path';
+import { fileURLToPath } from "url";
 import session from "express-session";
 import { Server } from 'socket.io'; // Importar Server de socket.io
 
@@ -14,7 +15,10 @@ import { Server } from 'socket.io'; // Importar Server de socket.io
 import productsRoutes from "./routes/products.routes.js";
 import cartsRoutes from "./routes/carts.routes.js";
 import authRoutes from './routes/auth.routes.js'
-// import routerViews from './routes/views.routes.js';
+import routerViews from './routes/views.routes.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const server = http.createServer(app);
@@ -58,12 +62,12 @@ app.use(cookieParser(COOKIE_SIGN));
 app.use(`${API_BASE_PATH}/cart`, cartsRoutes);
 app.use(`${API_BASE_PATH}/product`, productsRoutes);
 app.use(`${API_BASE_PATH}/session`, authRoutes);
-// app.use("/", routerViews);
+app.use("/", routerViews);
 
-// Configurar handlebars
-// app.engine("handlebars", handlebars.engine());
-// app.set("views", path.join(`${__dirname}/views`));
-// app.set("view engine", "handlebars");
+//Configurar handlebars
+app.engine("handlebars", handlebars.engine());
+app.set("views", path.join(`${__dirname}/views`));
+app.set("view engine", "handlebars");
 
 mongoose.connect(MONGO_URL)
     .then(() => {
