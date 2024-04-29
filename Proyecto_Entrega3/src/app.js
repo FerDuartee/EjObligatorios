@@ -55,7 +55,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-// app.use(express.static(path.join(__dirname, 'public')));
+
 app.use(cookieParser(COOKIE_SIGN));
 
 // Rutas
@@ -68,6 +68,8 @@ app.use("/", routerViews);
 app.engine("handlebars", handlebars.engine());
 app.set("views", path.join(`${__dirname}/views`));
 app.set("view engine", "handlebars");
+
+app.use(express.static(path.join(__dirname, '/public')));
 
 mongoose.connect(MONGO_URL)
     .then(() => {

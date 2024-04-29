@@ -1,6 +1,9 @@
 import passport from 'passport';
 import productsModel from '../models/products.model.js';
 import cartsModel from '../models/carts.models.js';
+import ProductDao from "../dao/Product.dao.js";
+
+const productService = new ProductDao();
 
 export const getLoginPage = async (req, res) => {
     res.render("login");
@@ -70,7 +73,7 @@ export const getCartPage = async (req, res) => {
 export const getHomePage = async (req, res) => {
     try {
         const limit = Number(req.query.limit);
-        let products = await productManager.getProducts();
+        let products = await productService.getAllProducts();
 
         if (limit && !isNaN(limit) && limit > 0) {
             products = products.filter((product, index) => index < limit);
@@ -86,7 +89,7 @@ export const getHomePage = async (req, res) => {
 export const getRealTimeProductsPage = async (req, res) => {
     try {
         const limit = Number(req.query.limit);
-        let products = await productManager.getProducts();
+        let products = await productService.getAllProducts;
 
         if (limit && !isNaN(limit) && limit > 0) {
             products = products.filter((product, index) => index < limit);

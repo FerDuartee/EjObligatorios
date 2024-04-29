@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 import userModel from '../models/user.model.js'
 
 export default class AuthDao {
-    logout = async () => {
+    logout = async (req) => {
         return new Promise((resolve, reject) => {
             req.session.destroy(err => {
                 if (err) {

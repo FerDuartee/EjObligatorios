@@ -1,29 +1,22 @@
 function authMdw(req, res, next) {
+  console.log("****AUTH MD*****");
+  console.log("REVISANDO LA SESION**", req.session);
+  
+  // Verificar si hay un usuario en la sesión
   if (req.session && req.session.user) {
+    // Verificar si el usuario es administrador
     if (req.session.user.email === 'adminCoder@coder.com') {
+      // Si es administrador, asignamos el rol de "admin"
       req.session.user.role = 'admin';
     } else {
+      // Si no es administrador, asignamos el rol de "usuario"
       req.session.user.role = 'usuario';
     }
-    
-    const { role } = req.session.user;
-    
-    if (role === 'admin') {
-      return next();
-    } else if (role === 'usuario') {
-      const { method, originalUrl } = req;
-      if (method === 'POST' && originalUrl === '/products') {
-        return res.status(403).json({ error: 'Acceso prohibido. Solo el administrador puede crear productos.' });
-      } else if ((method === 'PUT' || method === 'DELETE') && originalUrl.startsWith('/products/')) {
-        return res.status(403).json({ error: 'Acceso prohibido. Solo el administrador puede actualizar o eliminar productos.' });
-      } else if (originalUrl === '/chat' || originalUrl.startsWith('/carts')) {
-        return next();
-      } else {
-        return next();
-      }
-    }
+    // Si el usuario está logueado, continuar con la siguiente ruta
+    return next();
   }
 
+  // Si no hay un usuario en la sesión o la sesión no está iniciada, redirigir al inicio de sesión
   return res.redirect("/login");
 }
 
