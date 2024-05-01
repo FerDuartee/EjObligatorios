@@ -1,12 +1,22 @@
 import cartsModel from '../models/carts.models.js';
 
 export default class CartDao {
-  getCartById = async (id) => {
+  getCartById = async (_id) => {
     try {
-      const cart = await cartsModel.findById(id);
+      const cart = await cartsModel.findById(_id);
       return cart;
     } catch (error) {
       console.log("Error while getting cart by ID:", error);
+      throw error;
+    }
+  };
+
+  getCartByUserId = async (userId) => {
+    try {
+      const cart = await cartsModel.findOne({ user: userId });
+      return cart;
+    } catch (error) {
+      console.log("Error while getting cart by user ID:", error);
       throw error;
     }
   };
@@ -27,7 +37,6 @@ export default class CartDao {
       if (!cart) {
         throw new Error('Cart not found');
       }
-
       // Verificar si el producto ya está en el carrito
       const existingProductIndex = cart.products.findIndex(item => item.product.equals(productId));
 
@@ -47,6 +56,10 @@ export default class CartDao {
       throw error;
     }
   };
+
+
+
+  
   removeProductFromCart = async (cartId, productId) => {
     try {
       const cart = await cartsModel.findById(cartId);

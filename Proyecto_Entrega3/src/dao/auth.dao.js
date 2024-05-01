@@ -1,5 +1,8 @@
 import bcrypt from 'bcrypt';
 import userModel from '../models/user.model.js'
+import CartDao from './cart.dao.js';
+
+const cartService = new CartDao();
 
 export default class AuthDao {
     logout = async (req) => {
@@ -26,6 +29,17 @@ export default class AuthDao {
 
             if (!isPasswordValid) {
                 return { error: "Credenciales inválidas" };
+            }
+
+            let message;
+            if (!user.cart) {
+                // Si el usuario no tiene un carrito, crear uno nuevo
+                const newCart = await cartService.createCart({ user: user._id });
+                user.cart = newCart._id;
+                await user.save();
+                message = 'Inicio de sesión exitoso, se ha creado un nuevo carrito.';
+            } else {
+                message = 'Inicio de sesión exitoso, se ha cargado el carrito existente.';
             }
 
             const userWithoutPassword = { ...user.toObject() };

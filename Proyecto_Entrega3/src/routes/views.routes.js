@@ -13,6 +13,7 @@ import {
     getRealTimeProductsPage,
     getChatPage,
     getCurrentSession,
+    renderPage,
 } from '../controller/views.controller.js'
 import authMdw from '../middleware/auth.middleware.js';
 
@@ -28,11 +29,15 @@ router.get("/failregister", getFailRegister);
 router.get(`/profile`, authMdw, getProfilePage);
 
 // Rutas de productos
-router.get('/products', authMdw, getProductsPage);
-router.get('/carts/:cid', authMdw, getCartPage);
+router.get('/products', authMdw, getProductsPage, renderPage);
 router.get('/', authMdw, getHomePage);
 router.get('/realtimeproducts', authMdw, getRealTimeProductsPage);
-router.get("/chat", getChatPage);
+
+// Ruta de carrito
+router.get('/carts/:cid', authMdw, getCartPage);
+
+// Ruta de chat
+router.get("/chat", authMdw, getChatPage);
 
 // API endpoint
 router.get('/api/session/current', authMdw, getCurrentSession);

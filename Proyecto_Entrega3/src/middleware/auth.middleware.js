@@ -8,9 +8,11 @@ function authMdw(req, res, next) {
     if (req.session.user.email === 'adminCoder@coder.com') {
       // Si es administrador, asignamos el rol de "admin"
       req.session.user.role = 'admin';
+      req.session.user.canManageProducts = true;
     } else {
       // Si no es administrador, asignamos el rol de "usuario"
       req.session.user.role = 'usuario';
+      req.session.user.canManageProducts = false;
     }
     // Si el usuario está logueado, continuar con la siguiente ruta
     return next();

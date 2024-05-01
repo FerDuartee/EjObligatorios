@@ -8,6 +8,13 @@
         <form action="/profile" method="get">
             <button type="submit">Ver perfil</button>
         </form>
+
+        {{#if user.canManageProducts}}
+        <form action="/api/product/gestion" method="get">
+            <button id="adminButton" type="submit">Gestionar Productos</button>
+        </form>
+        {{/if}}
+        
         <form action="/api/session/logout" method="get">
             <button type="submit">Cerrar sesión</button>
         </form>

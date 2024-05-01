@@ -80,32 +80,32 @@ mongoose.connect(MONGO_URL)
         process.exit(1);
     });
 
-io.on('connection', (socket) => {
-    productManager.getProducts().then(products => {
-        socket.emit('getProducts_ev', products);
-    });
+// io.on('connection', (socket) => {
+//     productManager.getProducts().then(products => {
+//         socket.emit('getProducts_ev', products);
+//     });
 
-    console.log("Nuevo usuario conectado");
+//     console.log("Nuevo usuario conectado");
 
-    socket.on("message", async (data) => {
-        try {
-            await chatManager.saveMessage(data.user, data.message);
-            io.emit("messageLogs", data);
-        } catch (error) {
-            console.error('Error al guardar el mensaje:', error);
-        }
-    });
+//     socket.on("message", async (data) => {
+//         try {
+//             await chatManager.saveMessage(data.user, data.message);
+//             io.emit("messageLogs", data);
+//         } catch (error) {
+//             console.error('Error al guardar el mensaje:', error);
+//         }
+//     });
 
-    socket.on("user-login", (usr) => {
-        // Emitir los mensajes al cliente recién conectado si están disponibles
-        if (messages) {
-            socket.emit("messageLogs", messages);
-        }
+//     socket.on("user-login", (usr) => {
+//         // Emitir los mensajes al cliente recién conectado si están disponibles
+//         if (messages) {
+//             socket.emit("messageLogs", messages);
+//         }
 
-        // Emitir la notificación de nuevo usuario a todos los clientes
-        socket.broadcast.emit("new-user", usr);
-    });
-});
+//         // Emitir la notificación de nuevo usuario a todos los clientes
+//         socket.broadcast.emit("new-user", usr);
+//     });
+// });
 
 // Ruta por defecto
 app.get("/", (req, res) => {

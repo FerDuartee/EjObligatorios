@@ -1,6 +1,9 @@
 import AuthDao from "../dao/auth.dao.js";
+import CartDao from "../dao/cart.dao.js";
+
 // import userRepository from "../Repository/userRepository.js";
 const authService = new AuthDao();
+const cartService = new CartDao();
 
 export const logout = async (req, res) => {
   try {
@@ -19,6 +22,19 @@ export const login = async (req, res) => {
 
     if (result.error) {
       return res.json({ message: result.error });
+    }
+
+    // Verificar si se ha creado un nuevo carrito para el usuario al iniciar sesión
+    if (result.message && result.message.startsWith('Inicio de sesión exitoso, se ha creado un nuevo carrito.')) {
+      // Obtener el ID del usuario desde la sesión
+      const userId = req.session.user._id;
+      // Verificar si el usuario ya tiene un carrito
+      const existingCart = await cartService.getCartByUserId(userId);
+      
+      if (!existingCart) {
+        // Si el usuario no tiene un carrito existente, crear uno nuevo
+        await cartService.createCart(userId);
+      }
     }
 
     req.session.user = result.user;

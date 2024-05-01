@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
+import { collectionName as collectionProducts } from './products.model.js'
 
-const collectionName = 'carts';
+export const collectionName = 'carts';
 
 const cartSchema = new mongoose.Schema({
   user: {
@@ -12,7 +13,7 @@ const cartSchema = new mongoose.Schema({
   products: [{
       product: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "products",
+          ref: collectionProducts,
       },
       quantity: {
           type: Number,

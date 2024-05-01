@@ -120,3 +120,7 @@ export const getCurrentSession = (req, res) => {
         });
     }
 };
+
+export const renderPage = (req, res) =>{
+    res.render('page', { user: req.session.user });
+}

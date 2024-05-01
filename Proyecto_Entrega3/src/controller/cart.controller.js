@@ -1,4 +1,4 @@
-import CartDao from "../dao/Cart.dao.js";
+import CartDao from '../dao/cart.dao.js'
 
 const cartService = new CartDao();
 
@@ -13,6 +13,22 @@ export const getCartById = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+export const getCartByUserId = async (req, res) => {
+  try {
+    const userId = req.params.userId; // Suponiendo que el ID del usuario está en los parámetros de la solicitud
+    const cart = await cartService.getCartByUserId(userId);
+    
+    if (!cart) {
+      return res.status(404).json({ message: "No se encontró el carrito para el usuario." });
+    }
+    
+    return res.json(cart);
+  } catch (error) {
+    console.error("Error while getting cart by user ID:", error);
+    return res.status(500).json({ message: "Error al obtener el carrito por ID de usuario." });
   }
 };
 

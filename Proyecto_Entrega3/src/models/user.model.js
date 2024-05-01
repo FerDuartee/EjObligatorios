@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
+import mongoosePaginate from 'mongoose-paginate-v2'; // Importa correctamente mongoose-paginate-v2
+import { collectionName as CollectionCart } from './carts.models.js';
 
-const collectionName = "users";
+export const collectionName = "users";
 
 const userSchema = new mongoose.Schema({
   first_name: {
@@ -25,10 +27,11 @@ const userSchema = new mongoose.Schema({
   },
   cart: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Cart'
+    ref: CollectionCart,
   }
 });
 
+userSchema.plugin(mongoosePaginate); // Usa userSchema en lugar de schema
 const userModel = mongoose.model(collectionName, userSchema);
 
 export default userModel;
