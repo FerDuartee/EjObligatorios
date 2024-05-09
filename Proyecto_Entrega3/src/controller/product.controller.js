@@ -9,7 +9,10 @@ export const getAllProducts = async (req, res) => {
     const limitInt = parseInt(limit);
     const pageInt = parseInt(page);
 
-    const products = await productService.getAllProducts(limitInt, pageInt, sort, query);
+    let products = await productService.getAllProducts(limitInt, pageInt, sort, query);
+
+    // Filtrar productos con cantidad mayor que 0
+    products = products.filter(product => product.stock > 0);
 
     res.status(200).json({ ok: true, message: 'getAllProducts', products });
   } catch (error) {

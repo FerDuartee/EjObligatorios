@@ -6,7 +6,7 @@ import {
     getFailLogin,
     getProductsPage,
     getRegisterPage,
-    getCartPage,
+    getCartWithProducts,
     getProfilePage,
     getFailRegister,
     getHomePage,
@@ -34,7 +34,7 @@ router.get('/', authMdw, getHomePage);
 router.get('/realtimeproducts', authMdw, getRealTimeProductsPage);
 
 // Ruta de carrito
-router.get('/carts/:cid', authMdw, getCartPage);
+router.get('/cart/:cid', authMdw, getCartWithProducts, renderPage);
 
 // Ruta de chat
 router.get("/chat", authMdw, getChatPage);

@@ -8,18 +8,14 @@
         <form action="/profile" method="get">
             <button type="submit">Ver perfil</button>
         </form>
-
-        {{#if user.canManageProducts}}
-        <form action="/api/product/gestion" method="get">
-            <button id="adminButton" type="submit">Gestionar Productos</button>
-        </form>
-        {{/if}}
-        
         <form action="/api/session/logout" method="get">
             <button type="submit">Cerrar sesión</button>
         </form>
         <form action="/api/session/current" method="get">
             <button type="submit">Modelo de sesión</button>
+        </form>
+        <form action="/cart/{{user.cart}}'" method="get">
+            <button type="submit">Ver mi carrito</button>
         </form>
 
 
@@ -31,8 +27,8 @@
                 <p class="product-price">Precio: ${{this.price}}</p>
                 <p class="product-category">Categoría: {{this.category}}</p>
                 <p class="product-description">{{this.description}}</p>
-                <!-- Botón para agregar al carrito -->
-                <form action="/carts/{{cartId}}/products/{{this._id}}" method="POST" class="add-to-cart-form">
+                <!-- Formulario para agregar al carrito -->
+                <form action="api/cart/{{../user.cart}}/product/{{this._id}}" method="POST" class="add-to-cart-form">
                     <button type="submit" class="add-to-cart-button">Agregar al carrito</button>
                 </form>
             </li>

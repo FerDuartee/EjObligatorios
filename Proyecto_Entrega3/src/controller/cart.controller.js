@@ -4,8 +4,8 @@ const cartService = new CartDao();
 
 export const getCartById = async (req, res) => {
   try {
-    const { cid } = req.params;
-    const cart = await cartService.getCartById(cid);
+    const cartId  = req.params.cid;
+    const cart = await cartService.getCartById(cartId);
     if (!cart) {
       return res.status(404).json({ message: 'Cart not found' });
     }
@@ -16,21 +16,15 @@ export const getCartById = async (req, res) => {
   }
 };
 
-export const getCartByUserId = async (req, res) => {
+export const getUserCart = async (req, res) => {
+  const userId = req.params.userId;
   try {
-    const userId = req.params.userId; // Suponiendo que el ID del usuario está en los parámetros de la solicitud
-    const cart = await cartService.getCartByUserId(userId);
-    
-    if (!cart) {
-      return res.status(404).json({ message: "No se encontró el carrito para el usuario." });
-    }
-    
-    return res.json(cart);
+    const cartItems = await userDAO.getUserCart(userId);
+    res.render('cart', { cartItems }); // Renderiza la vista 'cart' con los datos del carrito
   } catch (error) {
-    console.error("Error while getting cart by user ID:", error);
-    return res.status(500).json({ message: "Error al obtener el carrito por ID de usuario." });
+    res.status(500).json({ error: error.message });
   }
-};
+}
 
 export const createCart = async (req, res) => {
   try {
@@ -47,6 +41,7 @@ export const addProductToCart = async (req, res) => {
     const { cid, pid } = req.params; // Corregido a pid
     const updatedCart = await cartService.addProductToCart(cid, pid);
     res.status(200).json(updatedCart);
+
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });

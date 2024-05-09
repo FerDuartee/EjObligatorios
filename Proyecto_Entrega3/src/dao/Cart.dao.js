@@ -1,9 +1,9 @@
 import cartsModel from '../models/carts.models.js';
 
 export default class CartDao {
-  getCartById = async (_id) => {
+  getCartById = async (query) => {
     try {
-      const cart = await cartsModel.findById(_id);
+      const cart = await cartsModel.findById(query).populate('products.product');
       return cart;
     } catch (error) {
       console.log("Error while getting cart by ID:", error);
@@ -11,15 +11,14 @@ export default class CartDao {
     }
   };
 
-  getCartByUserId = async (userId) => {
+  getUserCart = async (userId) => {
     try {
-      const cart = await cartsModel.findOne({ user: userId });
-      return cart;
+      const user = await userModel.findById(userId).populate('cart');
+      return user.cart;
     } catch (error) {
-      console.log("Error while getting cart by user ID:", error);
-      throw error;
+      throw new Error(`Error getting user's cart: ${error.message}`);
     }
-  };
+  }
 
   createCart = async (bodyCart) => {
     try {
@@ -57,9 +56,6 @@ export default class CartDao {
     }
   };
 
-
-
-  
   removeProductFromCart = async (cartId, productId) => {
     try {
       const cart = await cartsModel.findById(cartId);
