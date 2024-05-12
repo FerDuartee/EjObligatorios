@@ -30,7 +30,7 @@ export const login = async (req, res) => {
       const userId = req.session.user._id;
       // Verificar si el usuario ya tiene un carrito
       const existingCart = await cartService.getCartByUserId(userId);
-      
+
       if (!existingCart) {
         // Si el usuario no tiene un carrito existente, crear uno nuevo
         await cartService.createCart(userId);
@@ -57,19 +57,9 @@ export const register = async (req, res) => {
   }
 };
 
-// export const getCurrentUser = async (email) => {
-//   const user = await userRepository.getUserByEmail(email);
-
-//   if (!user) {
-//     throw new Error('Usuario no encontrado');
-//   }
-
-//   // Crear DTO del usuario con la información necesaria
-//   const userDTO = {
-//     email: user.email,
-//     role: user.role
-//     // Puedes incluir más campos según sea necesario
-//   };
-
-//   return userDTO;
-// };
+export const getCurrentUser = async () => {
+  const currentUser = req.session.user;
+  
+  // Enviar el usuario actual como respuesta
+  res.json(currentUser);
+};

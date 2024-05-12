@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import userModel from '../models/user.model.js'
+import userModel from '../models/user.model.js';
 import CartDao from './cart.dao.js';
 
 const cartService = new CartDao();
@@ -33,7 +33,6 @@ export default class AuthDao {
 
             let message;
             if (!user.cart) {
-                // Si el usuario no tiene un carrito, crear uno nuevo
                 const newCart = await cartService.createCart({ user: user._id });
                 user.cart = newCart._id;
                 await user.save();
@@ -81,12 +80,11 @@ export default class AuthDao {
 
     getCurrentUser = async (req, res) => {
         try {
-          const userDTO = await authService.getCurrentUser(req.session.user.email);
-          return res.status(200).json(userDTO);
+            const userDTO = await authService.getCurrentUser(req.session.user.email);
+            return res.status(200).json(userDTO);
         } catch (error) {
-          console.error('Error al obtener el usuario actual:', error);
-          return res.status(500).json({ error: 'Error interno del servidor' });
+            console.error('Error al obtener el usuario actual:', error);
+            return res.status(500).json({ error: 'Error interno del servidor' });
         }
-      };
+    };
 }
-

@@ -1,6 +1,10 @@
 import CartDao from '../dao/cart.dao.js'
+import ProductDao from '../dao/Product.dao.js';
+import TicketDAO from '../dao/ticket.dao.js';
 
 const cartService = new CartDao();
+const productService = new ProductDao();
+const ticketService = new TicketDAO();
 
 export const getCartById = async (req, res) => {
   try {
@@ -95,13 +99,86 @@ export const removeAllProductsFromCart = async (req, res) => {
 };
 
 export const purchaseCart = async (req, res) => {
-  const { cid } = req.params;
-
   try {
-    const result = await cartService.purchaseCart(cid);
-    return res.status(200).json(result);
+    const cartId = req.params.cid;
+
+    // Obtener el carrito
+    const cart = await cartService.getCartById(cartId);
+    if (!cart) {
+      return res.status(404).json({ message: 'Cart not found' });
+    }
+
+    // Verificar el stock de cada producto en el carrito
+    const { productsToPurchase, productsNotPurchased } = await verifyStock(cart.products);
+    console.log(productsToPurchase);
+    console.log(productsNotPurchased);
+
+    // Acceder a cada objeto 'product' dentro de 'productsToPurchase'
+    const productData = productsToPurchase.map(item => item.product);
+
+    // Acceder a cada precio de producto dentro de productData
+    const prices = productData.map(product => product.price);
+
+    // Generar un ticket con los datos de la compra
+    const ticketData = {
+      code: generateTicketCode(),
+      user: cart.user,
+      products: productData,
+      prices: prices, // Aquí agregamos los precios al ticketData
+      amount: calculateTotal(productsToPurchase),
+    };
+    console.log(ticketData);
+    const ticket = await ticketService.createTicket(ticketData);   
+
+    // Enviar respuesta con el ticket y los productos no comprados
+    res.status(200).json({ ticket, productsNotPurchased });
   } catch (error) {
-    console.error('Error al procesar la compra:', error);
-    return res.status(500).json({ error: 'Error interno del servidor' });
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
   }
 };
+
+async function verifyStock(cartItems) {
+  const productsToPurchase = [];
+  const productsNotPurchased = [];
+
+  if (!Array.isArray(cartItems)) {
+    throw new Error('Cart items is not an array');
+  }
+
+  for (const cartItem of cartItems) {
+    const productId = cartItem.product._id;
+    const product = cartItem.product; 
+
+    if (!product || product.stock < cartItem.quantity) {
+      productsNotPurchased.push(productId);
+    } else {
+      productsToPurchase.push(cartItem);
+    }
+  }
+
+  return { productsToPurchase, productsNotPurchased };
+}
+
+function calculateTotal(productsToPurchase) {
+  let total = 0;
+
+  for (const product of productsToPurchase) {
+    total += product.product.price * product.quantity;
+  }
+
+  return total;
+}
+
+function generateTicketCode() {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  const codeLength = 6;
+  let code = '';
+  
+  for (let i = 0; i < codeLength; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    code += characters[randomIndex];
+  }
+  
+  return 'T-' + code;
+}

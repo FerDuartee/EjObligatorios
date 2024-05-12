@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import mongoosePaginate from 'mongoose-paginate-v2'; // Importa correctamente mongoose-paginate-v2
+import mongoosePaginate from 'mongoose-paginate-v2';
 import { collectionName as CollectionCart } from './carts.models.js';
 
 export const collectionName = "users";
@@ -28,10 +28,14 @@ const userSchema = new mongoose.Schema({
   cart: {
     type: mongoose.Schema.Types.ObjectId,
     ref: CollectionCart,
+  },
+  role: {
+    type: String,
+    default: 'user' // Establece el valor predeterminado como 'user'
   }
 });
 
-userSchema.plugin(mongoosePaginate); // Usa userSchema en lugar de schema
+userSchema.plugin(mongoosePaginate);
 const userModel = mongoose.model(collectionName, userSchema);
 
 export default userModel;
